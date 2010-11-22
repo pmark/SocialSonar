@@ -29,14 +29,19 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView 
+{
     return 2;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+    if (section == 0)
+    {
+        return 0;
+    }
+    
     return 1;
 }
 
@@ -47,13 +52,25 @@
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+
+    if (cell == nil) 
+    {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    // Configure the cell...
-    cell.textLabel.text = @"hi";
-    
+    switch (indexPath.section) 
+    {
+        case 0:
+            cell.textLabel.text = @"Tap the plus button";
+            break;
+        case 1:
+            cell.textLabel.text = @"Upgrade Now";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            break;
+        default:
+            break;
+    }
+
     return cell;
 }
 
@@ -81,7 +98,7 @@
     
     switch (section) {
         case 0:
-            text = nil;
+            text = @"Tap the plus button in the nav bar to send an invitation for location sharing.";
             break;
         case 1:
             text = @"Upgrade to add multiple friends.";

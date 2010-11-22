@@ -20,6 +20,8 @@
 		A6109502129A309A00A92CA6 /* SingleFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6109501129A309A00A92CA6 /* SingleFriendController.m */; };
 		A610953B129A342000A92CA6 /* FriendsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6109539129A342000A92CA6 /* FriendsController.m */; };
 		A610953C129A342000A92CA6 /* FriendsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A610953A129A342000A92CA6 /* FriendsController.xib */; };
+		A610955D129A374E00A92CA6 /* ShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = A610955B129A374E00A92CA6 /* ShareController.m */; };
+		A610955E129A374E00A92CA6 /* ShareController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A610955C129A374E00A92CA6 /* ShareController.xib */; };
 		A61812AE129A235E00828935 /* 3dar.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6181285129A235E00828935 /* 3dar.plist */; };
 		A61812AF129A235E00828935 /* 3dar_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A6181286129A235E00828935 /* 3dar_logo.png */; };
 		A61812B0129A235E00828935 /* lib3DAR_v4_0_6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6181287129A235E00828935 /* lib3DAR_v4_0_6.a */; };
@@ -61,6 +63,9 @@
 		A6109538129A342000A92CA6 /* FriendsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsController.h; sourceTree = "<group>"; };
 		A6109539129A342000A92CA6 /* FriendsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsController.m; sourceTree = "<group>"; };
 		A610953A129A342000A92CA6 /* FriendsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsController.xib; sourceTree = "<group>"; };
+		A610955A129A374E00A92CA6 /* ShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareController.h; sourceTree = "<group>"; };
+		A610955B129A374E00A92CA6 /* ShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareController.m; sourceTree = "<group>"; };
+		A610955C129A374E00A92CA6 /* ShareController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareController.xib; sourceTree = "<group>"; };
 		A6181285129A235E00828935 /* 3dar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 3dar.plist; sourceTree = "<group>"; };
 		A6181286129A235E00828935 /* 3dar_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3dar_logo.png; sourceTree = "<group>"; };
 		A6181287129A235E00828935 /* lib3DAR_v4_0_6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = lib3DAR_v4_0_6.a; sourceTree = "<group>"; };
@@ -123,6 +128,9 @@
 				A6109538129A342000A92CA6 /* FriendsController.h */,
 				A6109539129A342000A92CA6 /* FriendsController.m */,
 				A610953A129A342000A92CA6 /* FriendsController.xib */,
+				A610955A129A374E00A92CA6 /* ShareController.h */,
+				A610955B129A374E00A92CA6 /* ShareController.m */,
+				A610955C129A374E00A92CA6 /* ShareController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 				A61812AF129A235E00828935 /* 3dar_logo.png in Resources */,
 				A61812B1129A235E00828935 /* SM3DAR_keys.txt in Resources */,
 				A610953C129A342000A92CA6 /* FriendsController.xib in Resources */,
+				A610955E129A374E00A92CA6 /* ShareController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +330,7 @@
 				A61094FF129A2C3F00A92CA6 /* Friend.m in Sources */,
 				A6109502129A309A00A92CA6 /* SingleFriendController.m in Sources */,
 				A610953B129A342000A92CA6 /* FriendsController.m in Sources */,
+				A610955D129A374E00A92CA6 /* ShareController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
