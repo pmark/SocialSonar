@@ -42,12 +42,14 @@
 
 - (IBAction) accept
 {
+    [self dismissModalViewControllerAnimated:YES];
     
+    // TODO: more stuff
 }
 
 - (IBAction) deny
 {
-    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end
