@@ -7,17 +7,59 @@
 //
 
 #import "FriendsController.h"
-
+#import "BeaconAppDelegate.h"
 
 @implementation FriendsController
 
+@synthesize friends;
 
 - (void) dealloc 
 {
+    [friends release];
+    [addButtonItem release];
+    
     [super dealloc];
 }
 
 
+
+- (void) fetchFriends
+{
+    /*
+	 Create a fetch request; find the entity and assign it to the request; add a sort descriptor; then execute the fetch.
+	 */
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Friend" 
+                                              inManagedObjectContext:MOCONTEXT];
+    
+	[request setEntity:entity];
+	
+	// Order the friends by creation date, most recent first.
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
+	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+	[request setSortDescriptors:sortDescriptors];
+	[sortDescriptor release];
+	[sortDescriptors release];
+	
+	// Execute the fetch -- create a mutable copy of the result.
+	NSError *error = nil;
+	NSMutableArray *mutableFetchResults = [[MOCONTEXT executeFetchRequest:request error:&error] mutableCopy];
+
+	if (mutableFetchResults == nil) 
+    {
+		NSLog(@"ERROR fetching friends: %@", [error localizedDescription]);        
+	}
+	
+	self.friends = mutableFetchResults;
+    
+    NSLog(@"Found %i friends.", [friends count]);
+    
+	[mutableFetchResults release];
+	[request release];   
+    
+    [self.tableView reloadData];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -27,6 +69,8 @@
     [super viewDidLoad];
 
     self.navigationItem.rightBarButtonItem = self.addButtonItem;
+    
+    [self fetchFriends];    
 }
 
 - (void) viewWillAppear:(BOOL)inAnimated
@@ -62,24 +106,46 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    // Return the number of rows in the section.
-    return 1;
+
+    NSInteger friendCount = (friends ? [friends count] : 0);
+    
+    NSInteger rowCount = 1;
+                             
+    switch (section) 
+    {
+        case 0:
+            rowCount = (friendCount == 0 ? 1 : friendCount);
+            break;
+        default:
+            rowCount = 1;
+            break;
+    }
+    
+    return rowCount;
+   
 }
 
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-    
+{    
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+
+    if (cell == nil) 
+    {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    
-    // Configure the cell...
-    cell.textLabel.text = @"Friend";
+
+    switch (indexPath.section)
+    {
+        case 0:
+            cell.textLabel.text = [friends objectAtIndex:indexPath.row];
+            break;
+        default:
+            cell.textLabel.text = @"???";
+            break;
+    }
     
     return cell;
 }
@@ -114,8 +180,7 @@
 
 - (void) viewDidUnload 
 {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+	self.friends = nil;
 }
 
 
@@ -125,13 +190,37 @@
     if (addButtonItem == NULL)
     {
         addButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)] autorelease];
+        addButtonItem.enabled = YES;
     }
-    
+
     return addButtonItem;
 }
 
 - (IBAction) add:(id)inSender
 {
+	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
+                                                             inManagedObjectContext:MOCONTEXT];
+	
+	[friend setName:@"Sam"];
+	
+	[friend setCreatedAt:[NSDate date]];
+	
+	// Commit the change.
+	NSError *error;
+
+	if (![MOCONTEXT save:&error]) 
+    {
+		NSLog(@"ERROR adding friend: %@", [error localizedDescription]);        
+	}
+	
+    [friends insertObject:friend atIndex:0];
+    
+    [self.tableView reloadData];
+    
+//	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
+//  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
 }
 
 

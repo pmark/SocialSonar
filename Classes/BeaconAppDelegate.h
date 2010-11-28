@@ -8,12 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 
+{
     UIWindow *window;
     UITabBarController *tabBarController;
+    
+    NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *managedObjectContext;	    
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
+@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, readonly) NSString *applicationDocumentsDirectory;
+
 @end
+
+#define APP_DELEGATE ((BeaconAppDelegate*)[UIApplication sharedApplication].delegate)
+#define MOCONTEXT APP_DELEGATE.managedObjectContext

@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Friend.h"
 
 
 @interface FriendsController : UITableViewController 
 {
     UIBarButtonItem *addButtonItem;
+    NSMutableArray *friends;
 }
 
 @property (readonly, nonatomic, retain) UIBarButtonItem *addButtonItem;
+@property (nonatomic, retain) NSMutableArray *friends;
 
 - (IBAction) add:(id)inSender;
 

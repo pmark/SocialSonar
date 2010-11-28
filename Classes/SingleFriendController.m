@@ -8,7 +8,6 @@
 
 #import "SingleFriendController.h"
 
-
 @implementation SingleFriendController
 
 - (void) dealloc 
@@ -35,18 +34,6 @@
 }
 
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
-{
-    if (section == 0)
-    {
-        return 0;
-    }
-    
-    return 1;
-}
-
-
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -58,11 +45,25 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    Friend *friend;
+    
+    NSInteger friendCount = (friends ? [friends count] : 0);
+
     switch (indexPath.section) 
     {
         case 0:
-            cell.textLabel.text = @"Tap the plus button";
+            if (friendCount == 0)
+            {
+                cell.textLabel.text = @"Tap the plus button";
+            }
+            else
+            {
+                friend = [friends objectAtIndex:indexPath.row];
+                cell.textLabel.text = [friend description];
+            }
+            
             break;
+            
         case 1:
             cell.textLabel.text = @"Upgrade Now";
             cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -77,10 +78,13 @@
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *text = nil;
+
+    NSInteger friendCount = (friends ? [friends count] : 0);
     
     switch (section) {
         case 0:
-            text = @"Invite a Friend";
+            
+            text = (friendCount == 0 ? @"Invite a Friend" : @"Your Friends");
             break;
         case 1:
             text = @"Get the Full Version";

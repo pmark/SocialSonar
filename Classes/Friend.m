@@ -11,15 +11,10 @@
 
 @implementation Friend
 
-@synthesize name;
-@synthesize inviterToken;
-@synthesize inviteeToken;
-@synthesize invitationCode;
-@synthesize createdAt;
-@synthesize pending;
-@synthesize invited;
-@synthesize watching;
-@synthesize cloaked;
+@dynamic name;
+@dynamic accessLink;
+@dynamic visible;
+@dynamic createdAt;
 
 
 + (Friend *) dummy
@@ -37,9 +32,14 @@
     
 }
 
-- (void) setCloaked:(BOOL)_cloaked
+- (NSString *) description
 {
-    cloaked = _cloaked;
+    return [NSString stringWithFormat:@"%@, %@", self.name, self.createdAt];
+}
+
+- (void) setVisible:(BOOL)_visible
+{
+    self.visible = _visible;
     
     // TODO: deactivate shared link temporarily
     
@@ -59,13 +59,6 @@
     //- Delete Friend from DB.
 }
 
-+ (void) updateInvitationResponses
-{
-    //- When app loads, try to complete accepted friend invitations.
-    //- select * from friends where invitee_token IS NOT NULL and pending = 1
-    //- For each, PUT http://beacon.heroku.com/invitations/INVITER_TOKEN/accept/INVITEE_TOKEN
-}
-
 - (void) handleInvitation:(NSString *)newInvitationCode
 {
     //- Stub the friendship invitation request so that it responds immediately.
@@ -75,5 +68,16 @@
     //- Response includes inviter's name and link share token.
     //- Add a Friend and set pending = 1 and invited = 1
 }
+
+#pragma mark -
+
++ (void) updateInvitationResponses
+{
+    //- When app loads, try to complete accepted friend invitations.
+    //- select * from friends where invitee_token IS NOT NULL and pending = 1
+    //- For each, PUT http://beacon.heroku.com/invitations/INVITER_TOKEN/accept/INVITEE_TOKEN
+}
+
+#pragma mark -
 
 @end
