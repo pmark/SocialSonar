@@ -26,5 +26,16 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>beacon</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.bordertownlabs.beacon</string>
+		</dict>
+	</array>
 </dict>
 </plist>

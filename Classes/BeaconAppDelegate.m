@@ -239,6 +239,28 @@
     return [html stringByReplacingOccurrencesOfString:@"{{BASE_URL}}" withString:[self htmlBaseURL]];
 }
 
+- (BOOL )application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if (!url) 
+    { 
+        return NO;
+    }
+    
+    NSString *URLString = [url absoluteString];
+    NSLog(@"Opened app with URL: %@", URLString);
+    
+    NSString *base = [url host];
+    NSLog(@"Base: %@", base);
+    
+    if ([base isEqualToString:@"invitation"])
+    {
+        NSLog(@"path: %@", [url pathComponents]);
+        NSString *invitationCode = [[url pathComponents] objectAtIndex:1];
+        NSLog(@"invitation code: %@", invitationCode);
+    }
+    
+    return YES;
+}
 
 @end
 
