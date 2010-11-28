@@ -7,6 +7,7 @@
 //
 
 #import "BeaconAppDelegate.h"
+#import "InvitationController.h"
 
 
 @implementation BeaconAppDelegate
@@ -239,7 +240,7 @@
     return [html stringByReplacingOccurrencesOfString:@"{{BASE_URL}}" withString:[self htmlBaseURL]];
 }
 
-- (BOOL )application:(UIApplication *)application handleOpenURL:(NSURL *)url
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     if (!url) 
     { 
@@ -257,7 +258,18 @@
         NSLog(@"path: %@", [url pathComponents]);
         NSString *invitationCode = [[url pathComponents] objectAtIndex:1];
         NSLog(@"invitation code: %@", invitationCode);
-    }
+
+        InvitationController *invite = [[InvitationController alloc] initWithInvitationCode:invitationCode];
+        
+        for (UIViewController *c in [tabBarController viewControllers])
+        {
+            [c dismissModalViewControllerAnimated:NO];
+        }
+        
+        [self.tabBarController presentModalViewController:invite animated:NO];
+        
+        [invite release];
+    }    
     
     return YES;
 }

@@ -42,6 +42,8 @@
 		A64541A312A227590014F23C /* EmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64541A212A227590014F23C /* EmailController.m */; };
 		A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64541A812A2282C0014F23C /* MessageUI.framework */; };
 		A64541E412A22BAD0014F23C /* invitation_email.html in Resources */ = {isa = PBXBuildFile; fileRef = A64541E312A22BAD0014F23C /* invitation_email.html */; };
+		A645420912A231580014F23C /* InvitationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A645420712A231580014F23C /* InvitationController.m */; };
+		A645420A12A231580014F23C /* InvitationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A645420812A231580014F23C /* InvitationController.xib */; };
 		A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B3129A25AC0043FECC /* MapKit.framework */; };
 		A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B9129A25BB0043FECC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
@@ -100,6 +102,9 @@
 		A64541A212A227590014F23C /* EmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailController.m; sourceTree = "<group>"; };
 		A64541A812A2282C0014F23C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A64541E312A22BAD0014F23C /* invitation_email.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = invitation_email.html; sourceTree = "<group>"; };
+		A645420612A231580014F23C /* InvitationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationController.h; sourceTree = "<group>"; };
+		A645420712A231580014F23C /* InvitationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationController.m; sourceTree = "<group>"; };
+		A645420812A231580014F23C /* InvitationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvitationController.xib; sourceTree = "<group>"; };
 		A679D9B3129A25AC0043FECC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A679D9B9129A25BB0043FECC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -146,6 +151,9 @@
 				A610955A129A374E00A92CA6 /* ShareController.h */,
 				A610955B129A374E00A92CA6 /* ShareController.m */,
 				A610955C129A374E00A92CA6 /* ShareController.xib */,
+				A645420612A231580014F23C /* InvitationController.h */,
+				A645420712A231580014F23C /* InvitationController.m */,
+				A645420812A231580014F23C /* InvitationController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -327,6 +335,7 @@
 				A610953C129A342000A92CA6 /* FriendsController.xib in Resources */,
 				A610955E129A374E00A92CA6 /* ShareController.xib in Resources */,
 				A64541E412A22BAD0014F23C /* invitation_email.html in Resources */,
+				A645420A12A231580014F23C /* InvitationController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +362,7 @@
 				A610955D129A374E00A92CA6 /* ShareController.m in Sources */,
 				A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */,
 				A64541A312A227590014F23C /* EmailController.m in Sources */,
+				A645420912A231580014F23C /* InvitationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
