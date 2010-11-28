@@ -27,6 +27,8 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, readonly) NSString *applicationDocumentsDirectory;
 
+- (NSString *) html:(NSString *)urn;
+
 @end
 
 #define APP_DELEGATE ((BeaconAppDelegate*)[UIApplication sharedApplication].delegate)

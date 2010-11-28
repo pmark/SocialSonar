@@ -83,7 +83,6 @@
     
     switch (section) {
         case 0:
-            
             text = (friendCount == 0 ? @"Invite a Friend" : @"Your Friends");
             break;
         case 1:

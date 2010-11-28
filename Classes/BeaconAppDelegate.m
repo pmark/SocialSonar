@@ -202,6 +202,43 @@
     return basePath;
 }
 
+#pragma mark -
+
+- (NSString *) htmlFilePath:(NSString *)urn 
+{
+    return [[NSBundle mainBundle] pathForResource:urn ofType:@"html"];
+}
+
+- (NSString *) htmlBaseURL 
+{
+    return [[@"file://" stringByAppendingString:[[NSBundle mainBundle] resourcePath]] stringByAppendingString:@"/"];
+}
+
+- (NSString *) html:(NSString *)urn 
+{
+    NSString *filePath = [self htmlFilePath:urn];
+    
+    if (filePath == nil) 
+    {
+        NSLog(@"[ERROR] No HTML file for '%@'", urn);
+        return nil;
+    }
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];  
+    NSError *error = nil;
+    
+    NSString *html = [NSString stringWithContentsOfURL:fileURL 
+                                              encoding:NSUTF8StringEncoding
+                                                 error:&error];
+    
+    if (error) 
+    {
+        NSLog(@"Error getting HTML: %@", [error localizedDescription]);
+    }
+    
+    return [html stringByReplacingOccurrencesOfString:@"{{BASE_URL}}" withString:[self htmlBaseURL]];
+}
+
 
 @end
 

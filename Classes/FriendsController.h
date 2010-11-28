@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Friend.h"
+#import "EmailController.h"
 
 
 @interface FriendsController : UITableViewController 

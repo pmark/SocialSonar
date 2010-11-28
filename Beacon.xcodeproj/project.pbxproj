@@ -39,6 +39,9 @@
 		A61812E0129A23BA00828935 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812DF129A23BA00828935 /* OpenGLES.framework */; };
 		A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = A645409912A2158E0014F23C /* Beacon.xcdatamodel */; };
 		A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64540AF12A217EB0014F23C /* CoreData.framework */; };
+		A64541A312A227590014F23C /* EmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64541A212A227590014F23C /* EmailController.m */; };
+		A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64541A812A2282C0014F23C /* MessageUI.framework */; };
+		A64541E412A22BAD0014F23C /* invitation_email.html in Resources */ = {isa = PBXBuildFile; fileRef = A64541E312A22BAD0014F23C /* invitation_email.html */; };
 		A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B3129A25AC0043FECC /* MapKit.framework */; };
 		A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B9129A25BB0043FECC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
@@ -93,6 +96,10 @@
 		A645409912A2158E0014F23C /* Beacon.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Beacon.xcdatamodel; sourceTree = "<group>"; };
 		A645409C12A216770014F23C /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		A64540AF12A217EB0014F23C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A64541A112A227590014F23C /* EmailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailController.h; sourceTree = "<group>"; };
+		A64541A212A227590014F23C /* EmailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailController.m; sourceTree = "<group>"; };
+		A64541A812A2282C0014F23C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		A64541E312A22BAD0014F23C /* invitation_email.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = invitation_email.html; sourceTree = "<group>"; };
 		A679D9B3129A25AC0043FECC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A679D9B9129A25BB0043FECC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -113,6 +120,7 @@
 				A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */,
 				A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */,
 				A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */,
+				A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +134,8 @@
 				28216C960DB411BC00E5133A /* MapController.m */,
 				1D3623240D0F684500981E51 /* BeaconAppDelegate.h */,
 				1D3623250D0F684500981E51 /* BeaconAppDelegate.m */,
+				A64541A112A227590014F23C /* EmailController.h */,
+				A64541A212A227590014F23C /* EmailController.m */,
 				A645409C12A216770014F23C /* Friend.h */,
 				A61094FE129A2C3F00A92CA6 /* Friend.m */,
 				A6109500129A309A00A92CA6 /* SingleFriendController.h */,
@@ -178,6 +188,7 @@
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Beacon-Info.plist */,
 				A645409912A2158E0014F23C /* Beacon.xcdatamodel */,
+				A64541E312A22BAD0014F23C /* invitation_email.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -185,6 +196,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A64541A812A2282C0014F23C /* MessageUI.framework */,
 				A64540AF12A217EB0014F23C /* CoreData.framework */,
 				A679D9B3129A25AC0043FECC /* MapKit.framework */,
 				A679D9B9129A25BB0043FECC /* CoreLocation.framework */,
@@ -314,6 +326,7 @@
 				A61812B1129A235E00828935 /* SM3DAR_keys.txt in Resources */,
 				A610953C129A342000A92CA6 /* FriendsController.xib in Resources */,
 				A610955E129A374E00A92CA6 /* ShareController.xib in Resources */,
+				A64541E412A22BAD0014F23C /* invitation_email.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +352,7 @@
 				A610953B129A342000A92CA6 /* FriendsController.m in Sources */,
 				A610955D129A374E00A92CA6 /* ShareController.m in Sources */,
 				A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */,
+				A64541A312A227590014F23C /* EmailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

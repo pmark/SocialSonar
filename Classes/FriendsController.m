@@ -198,6 +198,16 @@
 
 - (IBAction) add:(id)inSender
 {
+    
+    EmailController *email = [[EmailController alloc] initWithInvitationCode:@"ABCDE"];
+    
+    [self presentModalViewController:email animated:YES];
+    
+    [email release];    
+}
+
+- (void) createFriend
+{    
 	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
                                                              inManagedObjectContext:MOCONTEXT];
 	
@@ -207,7 +217,7 @@
 	
 	// Commit the change.
 	NSError *error;
-
+    
 	if (![MOCONTEXT save:&error]) 
     {
 		NSLog(@"ERROR adding friend: %@", [error localizedDescription]);        
@@ -217,9 +227,9 @@
     
     [self.tableView reloadData];
     
-//	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
-//  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    //	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
+    //  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
 }
 
