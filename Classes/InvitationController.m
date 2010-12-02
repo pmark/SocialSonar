@@ -67,16 +67,21 @@
     }
 }
 
+- (NSString *) fullyQualifiedHost:(NSString *)h
+{
+    return [NSString stringWithFormat:@"http://%@/1/", h];
+}
+
 - (void) createFriend:(NSDictionary *)data withAccessToken:(NSString *)accessToken
 {
-    NSLog(@"Creating friend with access token %@: %@", accessToken, data);
+    NSLog(@"Creating friend with access token %@ on host %@ \n\n %@", accessToken, self.host, data);
     
 	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
                                                              inManagedObjectContext:MOCONTEXT];
 	
 	[friend setName:[data objectForKey:@"name"]];
     [friend setInvitationToken:[data objectForKey:@"invitation_token"]];
-    [friend setServerURL:[data objectForKey:@"invitation_server"]];
+    [friend setServerURL:[self fullyQualifiedHost:self.host]];
     [friend setAccessToken:accessToken];
 	[friend setCreatedAt:[NSDate date]];
 	

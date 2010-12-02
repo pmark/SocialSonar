@@ -59,7 +59,11 @@
             else
             {
                 friend = [friends objectAtIndex:indexPath.row];
+                cell.textLabel.numberOfLines = 2;
                 cell.textLabel.text = [friend description];
+                
+//                cell.textLabel.text = [friend serverURL];
+//                cell.detailTextLabel.text = [friend accessToken];
             }
             
             break;

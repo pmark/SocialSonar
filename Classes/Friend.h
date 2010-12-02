@@ -6,11 +6,16 @@
 //  Copyright 2010 Bordertown Labs, LLC. All rights reserved.
 //
 
+#import "Geoloqi.h"
+
 @interface Friend : NSManagedObject  
 {
+    GLHTTPRequestCallback getAccessTokenCallback;
 }
 
 - (id) initWithName:(NSString *)name;
++ (NSMutableArray *) allFriends;
++ (void) getOpenAccessTokens;
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *accessToken;

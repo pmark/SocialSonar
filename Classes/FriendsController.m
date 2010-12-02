@@ -27,38 +27,7 @@
 
 - (void) fetchFriends
 {
-    /*
-	 Create a fetch request; find the entity and assign it to the request; add a sort descriptor; then execute the fetch.
-	 */
-	NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Friend" 
-                                              inManagedObjectContext:MOCONTEXT];
-    
-	[request setEntity:entity];
-	
-	// Order the friends by creation date, most recent first.
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[request setSortDescriptors:sortDescriptors];
-	[sortDescriptor release];
-	[sortDescriptors release];
-	
-	// Execute the fetch -- create a mutable copy of the result.
-	NSError *error = nil;
-	NSMutableArray *mutableFetchResults = [[MOCONTEXT executeFetchRequest:request error:&error] mutableCopy];
-
-	if (mutableFetchResults == nil) 
-    {
-		NSLog(@"ERROR fetching friends: %@", [error localizedDescription]);        
-	}
-	
-	self.friends = mutableFetchResults;
-    
-    NSLog(@"Found %i friends.", [friends count]);
-    
-	[mutableFetchResults release];
-	[request release];   
+	self.friends = [Friend allFriends];    
     
     [self.tableView reloadData];
 }
@@ -80,6 +49,8 @@
     [super viewWillAppear:inAnimated];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:inAnimated];
+
+    [self.tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)inAnimated
@@ -87,6 +58,8 @@
     [super viewDidAppear:inAnimated];
 
     [self.tableView flashScrollIndicators];
+    
+    [Friend getOpenAccessTokens];
 }
 
 
@@ -136,13 +109,17 @@
 
     if (cell == nil) 
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 
+    Friend *friend;
+    
     switch (indexPath.section)
     {
         case 0:
-            cell.textLabel.text = [friends objectAtIndex:indexPath.row];
+            friend = [friends objectAtIndex:indexPath.row];
+            cell.textLabel.text = [friend serverURL];
+            cell.detailTextLabel.text = [friend accessToken];
             break;
         default:
             cell.textLabel.text = @"???";

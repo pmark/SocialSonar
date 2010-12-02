@@ -7,7 +7,8 @@
 //
 
 #import "Friend.h"
-
+#import "BeaconAppDelegate.h"
+#import "CJSONDeserializer.h"
 
 @implementation Friend
 
@@ -41,7 +42,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"%@, %@", self.name, self.createdAt];
+    return [NSString stringWithFormat:@"%@, %@\n%@", [self accessToken], [self serverURL], [self name]];
 }
 
 - (void) setVisible:(BOOL)_visible
@@ -54,36 +55,104 @@
 
 - (void) acceptInvitation
 {
-    //- If Friend has no invitee token then generate INVITEE_TOKEN for new shared link.
-    //- Save invitee token to Friend and leave pending alone for now.
-    //- PUT http://beacon.heroku.com/invitations/bx492/accept/INVITEE_TOKEN
-    //- If server update success, set pending = 0.
 }
 
 - (void) denyInvitation
 {
-    //- PUT http://beacon.heroku.com/invitations/bx492/deny
-    //- Delete Friend from DB.
 }
 
 - (void) handleInvitation:(NSString *)newInvitationCode
 {
-    //- Stub the friendship invitation request so that it responds immediately.
-    //- Select * from friends where invitation_code = 'bx492'
-    //- If no results, GET http://beacon.heroku.com/invitations/bx492
-    //- If have result and pending = 0 then done.
-    //- Response includes inviter's name and link share token.
-    //- Add a Friend and set pending = 1 and invited = 1
 }
 
 #pragma mark -
 
-+ (void) updateInvitationResponses
-{
-    //- When app loads, try to complete accepted friend invitations.
-    //- select * from friends where invitee_token IS NOT NULL and pending = 1
-    //- For each, PUT http://beacon.heroku.com/invitations/INVITER_TOKEN/accept/INVITEE_TOKEN
+- (GLHTTPRequestCallback)getAccessTokenCallback {
+	if (getAccessTokenCallback) return getAccessTokenCallback;
+    
+    return getAccessTokenCallback = [^(NSError *error, NSString *responseBody) 
+             {
+                 NSLog(@"Fetching access token.");
+                 
+                 NSError *err = nil;
+                 NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                                NSUTF8StringEncoding]
+                                                                                         error:&err];
+                 if (!res || [res objectForKey:@"error"] != nil) 
+                 {
+                     NSLog(@"Error deserializing response (for invitation/token) \"%@\": %@", responseBody, err);
+                     [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+                     return;
+                 }
+                 
+                 
+                 NSLog(@"Fetched token: %@", res);
+                 
+                 //invitationToken = [[res objectForKey:@"access_token"] retain];        
+                 
+                 
+             } copy];
 }
+
+- (void) getAccessToken
+{
+    NSString *token = [self invitationToken];
+    NSString *server = [self serverURL];
+    
+    NSLog(@"Asking %@ for invitation %@", server, token);
+    
+    // TODO: use an operation queue
+    [[Geoloqi sharedInstance] getAccessTokenForInvitation:token callback:[self getAccessTokenCallback]];
+    
+}
+
++ (void) getOpenAccessTokens
+{
+    for (Friend *oneFriend in [Friend allFriends])
+    {
+        NSString *token = [oneFriend accessToken];
+
+        NSLog(@"Checking friend: %@", [oneFriend description]);
+        
+        if ([token length] > 0)
+            continue;
+        
+        [oneFriend getAccessToken];
+    }
+    
+}
+
++ (NSMutableArray *) allFriends
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Friend" 
+                                              inManagedObjectContext:MOCONTEXT];
+    
+    [request setEntity:entity];
+    
+    // Order the friends by creation date, most recent first.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+
+    [sortDescriptor release];
+    [sortDescriptors release];
+    
+    NSError *error = nil;
+    NSMutableArray *mutableFetchResults = [[MOCONTEXT executeFetchRequest:request error:&error] mutableCopy];
+    
+    if (mutableFetchResults == nil) 
+    {
+        NSLog(@"ERROR fetching friends: %@", [error localizedDescription]);        
+    }
+    
+    NSLog(@"Found %i friends.", [mutableFetchResults count]);
+    
+    [request release];   
+    
+    return [mutableFetchResults autorelease];
+}    
 
 #pragma mark -
 

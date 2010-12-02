@@ -48,7 +48,7 @@
 	}
     
 //    [[NSUserDefaults standardUserDefaults] setObject:@"http://2.2.255.38/1/" forKey:@"serverURL"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"http://tinybook.local/1/" forKey:@"serverURL"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"http://tinybook.local/1/" forKey:@"serverURL"];
 
     [[Geoloqi sharedInstance] setOauthClientID:OAUTH_CLIENT_ID secret:OAUTH_SECRET];
     
