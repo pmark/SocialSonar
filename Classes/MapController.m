@@ -33,9 +33,9 @@
 {
     [super viewDidLoad];
 	
-	SM3DAR.delegate = self;	
-    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-    [self.view addSubview:SM3DAR.view];
+//	SM3DAR.delegate = self;	
+//    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+//    [self.view addSubview:SM3DAR.view];
     
 }
 

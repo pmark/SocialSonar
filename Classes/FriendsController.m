@@ -8,6 +8,7 @@
 
 #import "FriendsController.h"
 #import "BeaconAppDelegate.h"
+#import "CJSONDeserializer.h"
 
 @implementation FriendsController
 
@@ -17,6 +18,7 @@
 {
     [friends release];
     [addButtonItem release];
+    [invitationToken release];
     
     [super dealloc];
 }
@@ -196,14 +198,47 @@
     return addButtonItem;
 }
 
-- (IBAction) add:(id)inSender
+- (void) composeEmailWithInvitation
 {
-    
-    EmailController *email = [[EmailController alloc] initWithInvitationCode:@"ABCDE"];
+    EmailController *email = [[EmailController alloc] initWithInvitationCode:invitationToken];
     
     [self presentModalViewController:email animated:YES];
     
     [email release];    
+}
+
+- (GLHTTPRequestCallback)invitationCreatedCallback {
+	if (invitationCreatedCallback) return invitationCreatedCallback;
+
+	return invitationCreatedCallback = [^(NSError *error, NSString *responseBody) 
+    {
+		NSLog(@"Invitation created.");
+		
+		NSError *err = nil;
+		NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+																					   NSUTF8StringEncoding]
+																				error:&err];
+		if (!res || [res objectForKey:@"error"] != nil) 
+        {
+			NSLog(@"Error deserializing response (for invitations/create) \"%@\": %@", responseBody, err);
+			[[Geoloqi sharedInstance] errorProcessingAPIRequest];
+			return;
+		}
+        
+        // Successful invitation creation.
+        
+        invitationToken = [[res objectForKey:@"invitation_token"] retain];        
+        
+        [self composeEmailWithInvitation];
+		
+	} copy];
+}
+
+- (IBAction) add:(id)inSender
+{
+    NSLog(@"Creating invitation...");
+    
+    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];    
 }
 
 - (void) createFriend

@@ -7,26 +7,29 @@
 //
 
 #import "InvitationController.h"
-
+#import "CJSONDeserializer.h"
+#import "BeaconAppDelegate.h"
 
 @implementation InvitationController
 
+@synthesize reciprocalInvitation;
 
 - (void)dealloc {
     [webView release];
     webView = nil;
-    [invitationCode release];
+    [invitation release];
+    [reciprocalInvitation release];
     
     [super dealloc];
 }
 
-- (id)initWithInvitationCode:(NSString*)code
+- (id)initWithInvitation:(NSDictionary*)_invitation
 {
     self = [super init];
     
     if (self) 
     {
-        invitationCode = [code retain];
+        invitation = [_invitation retain];
     }
 
     return self;
@@ -36,15 +39,48 @@
 {
     [super viewDidLoad];
     
-    [webView loadHTMLString:invitationCode baseURL:nil];
+    [webView loadHTMLString:[invitation description] baseURL:nil];
 
 }
 
-- (IBAction) accept
-{
-    [self dismissModalViewControllerAnimated:YES];
+- (GLHTTPRequestCallback)acceptInvitationBlock {
+	if (acceptInvitationBlock) return acceptInvitationBlock;
     
-    // TODO: more stuff
+	return acceptInvitationBlock = [^(NSError *error, NSString *responseBody) 
+            {
+                NSLog(@"Invitation accepted.");
+                
+                NSError *err = nil;
+                NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                               NSUTF8StringEncoding]
+                                                                                        error:&err];
+                if (!res || [res objectForKey:@"error"] != nil) 
+                {
+                    NSLog(@"Error deserializing response (for invitations/create) \"%@\": %@", responseBody, err);
+                    [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+                    return;
+                }
+                
+                self.reciprocalInvitation = [res retain];
+                
+                NSLog(@"Reciprocal invitation: %@", reciprocalInvitation);
+                
+            } copy];
+}
+
+- (IBAction) accept
+{    
+    NSLog(@"Accepting invitation: %@", invitation);
+    
+    NSString *invitationToken = [invitation objectForKey:@"invitation_token"];
+    
+    NSString *url = [APP_DELEGATE apiServerURL];
+    
+    [[Geoloqi sharedInstance] acceptInvitationAtServer:url 
+                                       invitationToken:invitationToken 
+                                              callback:[self acceptInvitationBlock]];
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction) deny

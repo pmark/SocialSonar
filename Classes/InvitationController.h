@@ -7,15 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Geoloqi.h"
 
 @interface InvitationController : UIViewController 
 {
     IBOutlet UIWebView *webView;
-    NSString *invitationCode;
+    NSDictionary *invitation;
+    GLHTTPRequestCallback acceptInvitationBlock;
+    GLHTTPRequestCallback invitationCreatedCallback;
+    NSDictionary *reciprocalInvitation;
 }
 
-- (id)initWithInvitationCode:(NSString*)code;
+@property (nonatomic, retain) NSDictionary *reciprocalInvitation;
+
+- (id)initWithInvitation:(NSDictionary*)invitation;
 - (IBAction) accept;
 - (IBAction) deny;
 

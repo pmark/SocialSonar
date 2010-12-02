@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Geoloqi.h"
+#import "InvitationController.h"
 
 @interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 
 {
@@ -16,7 +18,10 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
+    GLHTTPRequestCallback getInvitationCallback;
     
+    NSDictionary *currentInvitation;
+    InvitationController *invitationController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -26,8 +31,10 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, readonly) NSString *applicationDocumentsDirectory;
+@property (nonatomic, retain) InvitationController *invitationController;
 
 - (NSString *) html:(NSString *)urn;
+- (NSString *) apiServerURL;
 
 @end
 

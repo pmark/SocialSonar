@@ -37,6 +37,19 @@
 		A61812D8129A23AC00828935 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812D7129A23AC00828935 /* CoreMotion.framework */; };
 		A61812DC129A23B600828935 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812DB129A23B600828935 /* QuartzCore.framework */; };
 		A61812E0129A23BA00828935 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812DF129A23BA00828935 /* OpenGLES.framework */; };
+		A638039812A75FB1009057BF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A638039612A75FB1009057BF /* Default.png */; };
+		A638039912A75FB1009057BF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A638039712A75FB1009057BF /* Icon.png */; };
+		A63803BE12A761E1009057BF /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803A912A761E0009057BF /* CDataScanner.m */; };
+		A63803BF12A761E1009057BF /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803AC12A761E0009057BF /* CDataScanner_Extensions.m */; };
+		A63803C012A761E1009057BF /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803AE12A761E0009057BF /* NSCharacterSet_Extensions.m */; };
+		A63803C112A761E1009057BF /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B012A761E0009057BF /* NSDictionary_JSONExtensions.m */; };
+		A63803C212A761E1009057BF /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B212A761E0009057BF /* NSScanner_Extensions.m */; };
+		A63803C312A761E1009057BF /* CJSONDataSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B512A761E1009057BF /* CJSONDataSerializer.m */; };
+		A63803C412A761E1009057BF /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B712A761E1009057BF /* CJSONDeserializer.m */; };
+		A63803C512A761E1009057BF /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B912A761E1009057BF /* CJSONScanner.m */; };
+		A63803C612A761E1009057BF /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803BB12A761E1009057BF /* CJSONSerializer.m */; };
+		A63803C712A761E1009057BF /* CSerializedJSONData.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803BD12A761E1009057BF /* CSerializedJSONData.m */; };
+		A638041512A769E2009057BF /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A638041412A769E2009057BF /* libGeoloqi.a */; };
 		A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = A645409912A2158E0014F23C /* Beacon.xcdatamodel */; };
 		A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64540AF12A217EB0014F23C /* CoreData.framework */; };
 		A64541A312A227590014F23C /* EmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64541A212A227590014F23C /* EmailController.m */; };
@@ -95,6 +108,30 @@
 		A61812D7129A23AC00828935 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		A61812DB129A23B600828935 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A61812DF129A23BA00828935 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		A638036712A75E14009057BF /* Geoloqi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geoloqi.h; sourceTree = "<group>"; };
+		A638039612A75FB1009057BF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A638039712A75FB1009057BF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A63803A812A761E0009057BF /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
+		A63803A912A761E0009057BF /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
+		A63803AB12A761E0009057BF /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner_Extensions.h; sourceTree = "<group>"; };
+		A63803AC12A761E0009057BF /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner_Extensions.m; sourceTree = "<group>"; };
+		A63803AD12A761E0009057BF /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
+		A63803AE12A761E0009057BF /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_Extensions.m; sourceTree = "<group>"; };
+		A63803AF12A761E0009057BF /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
+		A63803B012A761E0009057BF /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
+		A63803B112A761E0009057BF /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_Extensions.h; sourceTree = "<group>"; };
+		A63803B212A761E0009057BF /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_Extensions.m; sourceTree = "<group>"; };
+		A63803B412A761E0009057BF /* CJSONDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDataSerializer.h; sourceTree = "<group>"; };
+		A63803B512A761E1009057BF /* CJSONDataSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDataSerializer.m; sourceTree = "<group>"; };
+		A63803B612A761E1009057BF /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
+		A63803B712A761E1009057BF /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
+		A63803B812A761E1009057BF /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONScanner.h; sourceTree = "<group>"; };
+		A63803B912A761E1009057BF /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONScanner.m; sourceTree = "<group>"; };
+		A63803BA12A761E1009057BF /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
+		A63803BB12A761E1009057BF /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
+		A63803BC12A761E1009057BF /* CSerializedJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSerializedJSONData.h; sourceTree = "<group>"; };
+		A63803BD12A761E1009057BF /* CSerializedJSONData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSerializedJSONData.m; sourceTree = "<group>"; };
+		A638041412A769E2009057BF /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
 		A645409912A2158E0014F23C /* Beacon.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Beacon.xcdatamodel; sourceTree = "<group>"; };
 		A645409C12A216770014F23C /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		A64540AF12A217EB0014F23C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -126,6 +163,7 @@
 				A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */,
 				A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */,
 				A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */,
+				A638041512A769E2009057BF /* libGeoloqi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +229,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A638039612A75FB1009057BF /* Default.png */,
+				A638039712A75FB1009057BF /* Icon.png */,
 				2840D7CD1179279E00D7F93C /* FirstView.xib */,
 				282CCBFD0DB6C98000C4EA27 /* SecondView.xib */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
@@ -225,7 +265,9 @@
 				A6181284129A235E00828935 /* 3DAR */,
 				A618128A129A235E00828935 /* BSJSONAdditions */,
 				A6181295129A235E00828935 /* ISO-8601-parser-0.5 */,
+				A638036612A75E09009057BF /* Geoloqi */,
 				A61812AB129A235E00828935 /* Reachability2.0 */,
+				A63803A712A761E0009057BF /* TouchJSON */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -275,6 +317,58 @@
 				A61812AD129A235E00828935 /* Reachability.m */,
 			);
 			path = Reachability2.0;
+			sourceTree = "<group>";
+		};
+		A638036612A75E09009057BF /* Geoloqi */ = {
+			isa = PBXGroup;
+			children = (
+				A638041412A769E2009057BF /* libGeoloqi.a */,
+				A638036712A75E14009057BF /* Geoloqi.h */,
+			);
+			path = Geoloqi;
+			sourceTree = "<group>";
+		};
+		A63803A712A761E0009057BF /* TouchJSON */ = {
+			isa = PBXGroup;
+			children = (
+				A63803A812A761E0009057BF /* CDataScanner.h */,
+				A63803A912A761E0009057BF /* CDataScanner.m */,
+				A63803AA12A761E0009057BF /* Extensions */,
+				A63803B312A761E0009057BF /* JSON */,
+			);
+			path = TouchJSON;
+			sourceTree = "<group>";
+		};
+		A63803AA12A761E0009057BF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A63803AB12A761E0009057BF /* CDataScanner_Extensions.h */,
+				A63803AC12A761E0009057BF /* CDataScanner_Extensions.m */,
+				A63803AD12A761E0009057BF /* NSCharacterSet_Extensions.h */,
+				A63803AE12A761E0009057BF /* NSCharacterSet_Extensions.m */,
+				A63803AF12A761E0009057BF /* NSDictionary_JSONExtensions.h */,
+				A63803B012A761E0009057BF /* NSDictionary_JSONExtensions.m */,
+				A63803B112A761E0009057BF /* NSScanner_Extensions.h */,
+				A63803B212A761E0009057BF /* NSScanner_Extensions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A63803B312A761E0009057BF /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				A63803B412A761E0009057BF /* CJSONDataSerializer.h */,
+				A63803B512A761E1009057BF /* CJSONDataSerializer.m */,
+				A63803B612A761E1009057BF /* CJSONDeserializer.h */,
+				A63803B712A761E1009057BF /* CJSONDeserializer.m */,
+				A63803B812A761E1009057BF /* CJSONScanner.h */,
+				A63803B912A761E1009057BF /* CJSONScanner.m */,
+				A63803BA12A761E1009057BF /* CJSONSerializer.h */,
+				A63803BB12A761E1009057BF /* CJSONSerializer.m */,
+				A63803BC12A761E1009057BF /* CSerializedJSONData.h */,
+				A63803BD12A761E1009057BF /* CSerializedJSONData.m */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +430,8 @@
 				A610955E129A374E00A92CA6 /* ShareController.xib in Resources */,
 				A64541E412A22BAD0014F23C /* invitation_email.html in Resources */,
 				A645420A12A231580014F23C /* InvitationController.xib in Resources */,
+				A638039812A75FB1009057BF /* Default.png in Resources */,
+				A638039912A75FB1009057BF /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +459,16 @@
 				A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */,
 				A64541A312A227590014F23C /* EmailController.m in Sources */,
 				A645420912A231580014F23C /* InvitationController.m in Sources */,
+				A63803BE12A761E1009057BF /* CDataScanner.m in Sources */,
+				A63803BF12A761E1009057BF /* CDataScanner_Extensions.m in Sources */,
+				A63803C012A761E1009057BF /* NSCharacterSet_Extensions.m in Sources */,
+				A63803C112A761E1009057BF /* NSDictionary_JSONExtensions.m in Sources */,
+				A63803C212A761E1009057BF /* NSScanner_Extensions.m in Sources */,
+				A63803C312A761E1009057BF /* CJSONDataSerializer.m in Sources */,
+				A63803C412A761E1009057BF /* CJSONDeserializer.m in Sources */,
+				A63803C512A761E1009057BF /* CJSONScanner.m in Sources */,
+				A63803C612A761E1009057BF /* CJSONSerializer.m in Sources */,
+				A63803C712A761E1009057BF /* CSerializedJSONData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +489,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Lib/3DAR\"",
+					"\"$(SRCROOT)/Lib/Geoloqi\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -404,6 +512,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Lib/3DAR\"",
+					"\"$(SRCROOT)/Lib/Geoloqi\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",

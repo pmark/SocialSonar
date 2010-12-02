@@ -8,6 +8,7 @@
 
 #import "EmailController.h"
 #import "BeaconAppDelegate.h"
+#import "Geoloqi.h"
 
 @implementation EmailController
 
@@ -28,10 +29,15 @@
     [self setSubject:@"Let's share locations"];
 
     NSString *body = [APP_DELEGATE html:@"invitation_email"];
+    
+    NSURL *apiServerURL = [NSURL URLWithString:GL_API_URL];
+    NSString *apiHost = apiServerURL.host;
+    
+    body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_GLUSER_SERVER}}" withString:apiHost];
     body = [body stringByReplacingOccurrencesOfString:@"{{INVITATION_CODE}}" withString:invitationCode];
 
     [self setMessageBody:body isHTML:YES];
-}
+} 
 
 - (id) initWithInvitationCode:(NSString*)code;
 {

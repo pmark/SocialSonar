@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Friend.h"
 #import "EmailController.h"
+#import "Geoloqi.h"
 
 
 @interface FriendsController : UITableViewController 
 {
     UIBarButtonItem *addButtonItem;
     NSMutableArray *friends;
+	GLHTTPRequestCallback invitationCreatedCallback;
+    NSString *invitationToken;
 }
 
 @property (readonly, nonatomic, retain) UIBarButtonItem *addButtonItem;

@@ -8,12 +8,16 @@
 
 #import "BeaconAppDelegate.h"
 #import "InvitationController.h"
+#import "CJSONDeserializer.h"
 
+#define OAUTH_CLIENT_ID @"beacon"
+#define OAUTH_SECRET @"b68484a8148fed228d3329e6e87e59d8"
 
 @implementation BeaconAppDelegate
 
 @synthesize window;
 @synthesize tabBarController;
+@synthesize invitationController;
 
 
 - (void)dealloc {
@@ -22,6 +26,7 @@
     [managedObjectContext release];
     [managedObjectModel release];
     [persistentStoreCoordinator release];
+    [invitationController release];
     
     [super dealloc];
 }
@@ -39,6 +44,22 @@
         NSLog(@"ERROR: Could not init Core Data.");
 	}
     
+    [[NSUserDefaults standardUserDefaults] setObject:@"http://2.2.255.38/1/" forKey:@"serverURL"];
+
+    [[Geoloqi sharedInstance] setOauthClientID:OAUTH_CLIENT_ID secret:OAUTH_SECRET];
+    
+	if ([[Geoloqi sharedInstance] hasRefreshToken])
+    {
+        // If use the refresh token to get a new access token right now
+		[[Geoloqi sharedInstance] initTokenAndGetUsername];
+    }
+	else 
+    {
+        // Else there is no refresh token present, show the login/signup screen
+		[[Geoloqi sharedInstance] createAnonymousAccount:@"Cy Swerdlow"];
+	}
+    
+     
     // Add the tab bar controller's view to the window and display.
     [self.window addSubview:tabBarController.view];
     [self.window makeKeyAndVisible];
@@ -240,6 +261,47 @@
     return [html stringByReplacingOccurrencesOfString:@"{{BASE_URL}}" withString:[self htmlBaseURL]];
 }
 
+- (void) viewInvitation
+{
+    if (!invitationController)
+    {
+        self.invitationController = [[[InvitationController alloc] initWithInvitation:currentInvitation] autorelease];
+    }
+    
+    for (UIViewController *c in [tabBarController viewControllers])
+    {
+        [c dismissModalViewControllerAnimated:NO];
+    }
+    
+    [self.tabBarController presentModalViewController:invitationController animated:NO];
+}
+
+- (GLHTTPRequestCallback)getInvitationCallback 
+{
+	if (getInvitationCallback) return getInvitationCallback;
+    
+	return getInvitationCallback = [^(NSError *error, NSString *responseBody) 
+    {
+        NSLog(@"Got invitation.");
+        
+        NSError *err = nil;
+        NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                       NSUTF8StringEncoding]
+                                                                                error:&err];
+        if (!res || [res objectForKey:@"error"] != nil) 
+        {
+            NSLog(@"Error deserializing response (for invitations/view) \"%@\": %@", responseBody, err);
+            [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+            return;
+        }
+        
+        currentInvitation = [res retain];
+        
+        [self viewInvitation];
+        
+    } copy];
+}
+
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     if (!url) 
@@ -250,28 +312,21 @@
     NSString *URLString = [url absoluteString];
     NSLog(@"Opened app with URL: %@", URLString);
     
-    NSString *base = [url host];
-    NSLog(@"Base: %@", base);
-    
-    if ([base isEqualToString:@"invitation"])
-    {
-        NSLog(@"path: %@", [url pathComponents]);
-        NSString *invitationCode = [[url pathComponents] objectAtIndex:1];
-        NSLog(@"invitation code: %@", invitationCode);
+    NSString *host = [url host];
+    NSLog(@"Host: %@", host);
 
-        InvitationController *invite = [[InvitationController alloc] initWithInvitationCode:invitationCode];
-        
-        for (UIViewController *c in [tabBarController viewControllers])
-        {
-            [c dismissModalViewControllerAnimated:NO];
-        }
-        
-        [self.tabBarController presentModalViewController:invite animated:NO];
-        
-        [invite release];
-    }    
+    NSLog(@"path: %@", [url pathComponents]);
+    NSString *invitationCode = [[url pathComponents] objectAtIndex:1];
+    NSLog(@"invitation code: %@", invitationCode);
+
+    [[Geoloqi sharedInstance] getInvitationAtServer:@"bogus" token:invitationCode callback:[self getInvitationCallback]];
     
     return YES;
+}
+
+- (NSString *) apiServerURL
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"serverURL"];
 }
 
 @end
