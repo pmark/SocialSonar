@@ -30,7 +30,7 @@
 
     NSString *body = [APP_DELEGATE html:@"invitation_email"];
     
-    NSURL *apiServerURL = [NSURL URLWithString:GL_API_URL];
+    NSURL *apiServerURL = [NSURL URLWithString:[APP_DELEGATE apiServerURL]];
     NSString *apiHost = apiServerURL.host;
     
     body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_GLUSER_SERVER}}" withString:apiHost];
@@ -41,6 +41,12 @@
 
 - (id) initWithInvitationCode:(NSString*)code;
 {
+    if (![[self class] canSendMail])
+    {
+        [BeaconAppDelegate alertWithTitle:@"Mail setup required" message:@"Please add a mail account to this device."];
+        return nil;
+    }
+        
     if (self = [super init]) 
     {    
         invitationCode = [code retain];        

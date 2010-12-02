@@ -202,9 +202,12 @@
 {
     EmailController *email = [[EmailController alloc] initWithInvitationCode:invitationToken];
     
-    [self presentModalViewController:email animated:YES];
-    
-    [email release];    
+    if (email)
+    {
+        [self presentModalViewController:email animated:YES];
+        
+        [email release];    
+    }    
 }
 
 - (GLHTTPRequestCallback)invitationCreatedCallback {
@@ -229,7 +232,15 @@
         
         invitationToken = [[res objectForKey:@"invitation_token"] retain];        
         
-        [self composeEmailWithInvitation];
+        if ([invitationToken length] == 0)
+        {
+            [BeaconAppDelegate alertWithTitle:@"Sorry" message:@"Please try again later."];
+        }
+        else
+        {
+            [self composeEmailWithInvitation];
+        }
+        
 		
 	} copy];
 }

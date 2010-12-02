@@ -22,6 +22,7 @@
     
     NSDictionary *currentInvitation;
     InvitationController *invitationController;
+    NSString *invitationHost;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -32,9 +33,12 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, readonly) NSString *applicationDocumentsDirectory;
 @property (nonatomic, retain) InvitationController *invitationController;
+@property (nonatomic, retain) NSString *invitationHost;
 
 - (NSString *) html:(NSString *)urn;
 - (NSString *) apiServerURL;
+
++ (void)alertWithTitle:(NSString *)title message:(NSString *)msg;
 
 @end
 

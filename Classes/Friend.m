@@ -12,9 +12,11 @@
 @implementation Friend
 
 @dynamic name;
-@dynamic accessLink;
+@dynamic accessToken;
 @dynamic visible;
 @dynamic createdAt;
+@dynamic invitationToken;
+@dynamic serverURL;
 
 
 + (Friend *) dummy
@@ -27,9 +29,14 @@
     return friend;
 }
 
-+ (void) generateSharedLinkToken
+- (id) initWithName:(NSString *)_name
 {
+    if (self = [super init])
+    {
+        self.name = _name;
+    }
     
+    return self;
 }
 
 - (NSString *) description

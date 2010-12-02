@@ -49,7 +49,6 @@
 		A63803C512A761E1009057BF /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803B912A761E1009057BF /* CJSONScanner.m */; };
 		A63803C612A761E1009057BF /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803BB12A761E1009057BF /* CJSONSerializer.m */; };
 		A63803C712A761E1009057BF /* CSerializedJSONData.m in Sources */ = {isa = PBXBuildFile; fileRef = A63803BD12A761E1009057BF /* CSerializedJSONData.m */; };
-		A638041512A769E2009057BF /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A638041412A769E2009057BF /* libGeoloqi.a */; };
 		A645409A12A2158E0014F23C /* Beacon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = A645409912A2158E0014F23C /* Beacon.xcdatamodel */; };
 		A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A64540AF12A217EB0014F23C /* CoreData.framework */; };
 		A64541A312A227590014F23C /* EmailController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64541A212A227590014F23C /* EmailController.m */; };
@@ -59,6 +58,7 @@
 		A645420A12A231580014F23C /* InvitationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A645420812A231580014F23C /* InvitationController.xib */; };
 		A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B3129A25AC0043FECC /* MapKit.framework */; };
 		A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B9129A25BB0043FECC /* CoreLocation.framework */; };
+		A6E1FBAB12A7B4A000C572BF /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,7 +131,6 @@
 		A63803BB12A761E1009057BF /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
 		A63803BC12A761E1009057BF /* CSerializedJSONData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSerializedJSONData.h; sourceTree = "<group>"; };
 		A63803BD12A761E1009057BF /* CSerializedJSONData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSerializedJSONData.m; sourceTree = "<group>"; };
-		A638041412A769E2009057BF /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
 		A645409912A2158E0014F23C /* Beacon.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Beacon.xcdatamodel; sourceTree = "<group>"; };
 		A645409C12A216770014F23C /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		A64540AF12A217EB0014F23C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -144,6 +143,7 @@
 		A645420812A231580014F23C /* InvitationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvitationController.xib; sourceTree = "<group>"; };
 		A679D9B3129A25AC0043FECC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A679D9B9129A25BB0043FECC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,7 +163,7 @@
 				A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */,
 				A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */,
 				A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */,
-				A638041512A769E2009057BF /* libGeoloqi.a in Frameworks */,
+				A6E1FBAB12A7B4A000C572BF /* libGeoloqi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,7 +322,7 @@
 		A638036612A75E09009057BF /* Geoloqi */ = {
 			isa = PBXGroup;
 			children = (
-				A638041412A769E2009057BF /* libGeoloqi.a */,
+				A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */,
 				A638036712A75E14009057BF /* Geoloqi.h */,
 			);
 			path = Geoloqi;
@@ -491,6 +491,9 @@
 					"\"$(SRCROOT)/Lib/3DAR\"",
 					"\"$(SRCROOT)/Lib/Geoloqi\"",
 					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/FatBinary\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Release-iphonesimulator\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphonesimulator\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -514,6 +517,9 @@
 					"\"$(SRCROOT)/Lib/3DAR\"",
 					"\"$(SRCROOT)/Lib/Geoloqi\"",
 					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/FatBinary\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Release-iphonesimulator\"",
+					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphonesimulator\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",

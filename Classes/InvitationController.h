@@ -17,9 +17,11 @@
     GLHTTPRequestCallback confirmInvitationBlock;
     GLHTTPRequestCallback invitationCreatedCallback;
     NSDictionary *reciprocalInvitation;
+    NSString *host;
 }
 
 @property (nonatomic, retain) NSDictionary *reciprocalInvitation;
+@property (nonatomic, retain) NSString *host;
 
 - (id)initWithInvitation:(NSDictionary*)invitation;
 - (IBAction) accept;

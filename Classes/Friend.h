@@ -10,8 +10,12 @@
 {
 }
 
+- (id) initWithName:(NSString *)name;
+
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *accessLink;
+@property (nonatomic, retain) NSString *accessToken;
+@property (nonatomic, retain) NSString *invitationToken;
+@property (nonatomic, retain) NSString *serverURL;
 @property (nonatomic, assign) BOOL visible;
 @property (nonatomic, retain) NSDate *createdAt;
 

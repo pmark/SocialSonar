@@ -10,16 +10,19 @@
 #import "CJSONDeserializer.h"
 #import "BeaconAppDelegate.h"
 #import "EmailController.h"
+#import "Friend.h"
 
 @implementation InvitationController
 
 @synthesize reciprocalInvitation;
+@synthesize host;
 
 - (void)dealloc {
     [webView release];
     webView = nil;
     [invitation release];
     [reciprocalInvitation release];
+    [host release];
     
     [super dealloc];
 }
@@ -31,6 +34,7 @@
     if (self) 
     {
         invitation = [_invitation retain];
+        self.host = APP_DELEGATE.invitationHost;
     }
 
     return self;
@@ -51,16 +55,42 @@
 
     EmailController *email = [[EmailController alloc] initWithInvitationCode:invitationToken];
     
-    UIViewController *parent = self.parentViewController;
-    [self dismissModalViewControllerAnimated:NO];
-    
-    email.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [parent presentModalViewController:email animated:NO];
-    
-    [email release];    
+    if (email)
+    {
+        UIViewController *parent = self.parentViewController;
+        [self dismissModalViewControllerAnimated:NO];
+        
+        email.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [parent presentModalViewController:email animated:NO];
+        
+        [email release];    
+    }
 }
 
-- (GLHTTPRequestCallback)claimInvitationBlock {
+- (void) createFriend:(NSDictionary *)data withAccessToken:(NSString *)accessToken
+{
+    NSLog(@"Creating friend with access token %@: %@", accessToken, data);
+    
+	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
+                                                             inManagedObjectContext:MOCONTEXT];
+	
+	[friend setName:[data objectForKey:@"name"]];
+    [friend setInvitationToken:[data objectForKey:@"invitation_token"]];
+    [friend setServerURL:[data objectForKey:@"invitation_server"]];
+    [friend setAccessToken:accessToken];
+	[friend setCreatedAt:[NSDate date]];
+	
+	// Commit the change.
+	NSError *error;
+    
+	if (![MOCONTEXT save:&error]) 
+    {
+		NSLog(@"ERROR creating friend: %@", [error localizedDescription]);        
+	}    
+}
+
+- (GLHTTPRequestCallback)claimInvitationBlock 
+{
 	if (claimInvitationBlock) return claimInvitationBlock;
     
 	return claimInvitationBlock = [^(NSError *error, NSString *responseBody) 
@@ -82,7 +112,10 @@
                
                NSLog(@"Reciprocal invitation: %@", reciprocalInvitation);
                
+               [self createFriend:invitation withAccessToken:nil];
+                
                [self composeReciprocalInvitationEmail];
+               
                
            } copy];
 }
@@ -105,6 +138,8 @@
                      return;
                  }
                  
+                 [self createFriend:invitation withAccessToken:[res objectForKey:@"access_token"]];
+                                  
                  [self dismissModalViewControllerAnimated:YES];        
 
              } copy];
@@ -112,9 +147,7 @@
 
 - (IBAction) accept
 {    
-    NSLog(@"Claiming invitation: %@", invitation);
-    
-    NSString *url = [APP_DELEGATE apiServerURL];
+    NSLog(@"Claiming invitation for host %@: %@", host, invitation);
     
     NSString *invitationToken = [invitation objectForKey:@"invitation_token"];
     
@@ -122,15 +155,15 @@
     
     if (alreadyClaimed)
     {
-        [[Geoloqi sharedInstance] confirmInvitationAtServer:url 
-                                          invitationToken:invitationToken 
-                                                 callback:[self confirmInvitationBlock]];
+        [[Geoloqi sharedInstance] confirmInvitation:invitationToken 
+                                               host:self.host
+                                           callback:[self confirmInvitationBlock]];
     }
     else 
     {
-        [[Geoloqi sharedInstance] claimInvitationAtServer:url 
-                                          invitationToken:invitationToken 
-                                                 callback:[self claimInvitationBlock]];
+        [[Geoloqi sharedInstance] claimInvitation:invitationToken 
+                                             host:self.host
+                                         callback:[self claimInvitationBlock]];
     }
     
 }
@@ -141,11 +174,9 @@
     
     NSString *invitationToken = [invitation objectForKey:@"invitation_token"];
     
-    NSString *url = [APP_DELEGATE apiServerURL];
-    
-    [[Geoloqi sharedInstance] confirmInvitationAtServer:url 
-                                      invitationToken:invitationToken 
-                                             callback:[self confirmInvitationBlock]];
+    [[Geoloqi sharedInstance] confirmInvitation:invitationToken 
+                                           host:self.host
+                                       callback:[self confirmInvitationBlock]];
     
 }
 

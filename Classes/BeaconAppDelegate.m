@@ -18,7 +18,7 @@
 @synthesize window;
 @synthesize tabBarController;
 @synthesize invitationController;
-
+@synthesize invitationHost;
 
 - (void)dealloc {
     [tabBarController release];
@@ -27,6 +27,7 @@
     [managedObjectModel release];
     [persistentStoreCoordinator release];
     [invitationController release];
+    [invitationHost release];
     
     [super dealloc];
 }
@@ -35,6 +36,8 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+
+    NSLog(@"application:didFinishLaunchingWithOptions:");
     
 	NSManagedObjectContext *context = [self managedObjectContext];
 
@@ -44,7 +47,8 @@
         NSLog(@"ERROR: Could not init Core Data.");
 	}
     
-    [[NSUserDefaults standardUserDefaults] setObject:@"http://2.2.255.38/1/" forKey:@"serverURL"];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"http://2.2.255.38/1/" forKey:@"serverURL"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"http://tinybook.local/1/" forKey:@"serverURL"];
 
     [[Geoloqi sharedInstance] setOauthClientID:OAUTH_CLIENT_ID secret:OAUTH_SECRET];
     
@@ -264,7 +268,7 @@
 - (void) viewInvitation
 {
     self.invitationController = [[[InvitationController alloc] initWithInvitation:currentInvitation] autorelease];
-    
+
     for (UIViewController *c in [tabBarController viewControllers])
     {
         [c dismissModalViewControllerAnimated:NO];
@@ -301,6 +305,8 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    NSLog(@"application:handleOpenURL:");
+    
     if (!url) 
     { 
         return NO;
@@ -309,14 +315,16 @@
     NSString *URLString = [url absoluteString];
     NSLog(@"Opened app with URL: %@", URLString);
     
-    NSString *host = [url host];
-    NSLog(@"Host: %@", host);
+    self.invitationHost = [url host];
+    NSLog(@"Host: %@", invitationHost);
 
     NSLog(@"path: %@", [url pathComponents]);
     NSString *invitationCode = [[url pathComponents] objectAtIndex:1];
     NSLog(@"invitation code: %@", invitationCode);
-
-    [[Geoloqi sharedInstance] getInvitationAtServer:@"bogus" token:invitationCode callback:[self getInvitationCallback]];
+    
+    [[Geoloqi sharedInstance] getInvitationAtHost:invitationHost 
+                                            token:invitationCode 
+                                         callback:[self getInvitationCallback]];
     
     return YES;
 }
@@ -324,6 +332,16 @@
 - (NSString *) apiServerURL
 {
     return [[NSUserDefaults standardUserDefaults] stringForKey:@"serverURL"];
+}
+
++ (void)alertWithTitle:(NSString *)title message:(NSString *)msg
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title 
+                                                    message:msg
+                                                   delegate:nil cancelButtonTitle:@"OK" 
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
 }
 
 @end

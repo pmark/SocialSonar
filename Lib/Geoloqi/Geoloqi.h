@@ -52,13 +52,15 @@ typedef void (^GLHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 - (BOOL)hasRefreshToken;
 
-- (NSDictionary *)createInvitation:(GLHTTPRequestCallback)callback;
+- (void)createInvitation:(GLHTTPRequestCallback)callback;
 
-- (NSDictionary *)getInvitationAtServer:(NSString *)url token:(NSString *)invitationToken callback:(GLHTTPRequestCallback)callback;
+- (void)getInvitationAtHost:(NSString *)host token:(NSString *)invitationToken callback:(GLHTTPRequestCallback)callback;
 
-- (void)claimInvitationAtServer:(NSString*)url invitationToken:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
+- (void)claimInvitation:(NSString*)invitationToken host:(NSString*)host callback:(GLHTTPRequestCallback)callback;
 
-- (void)confirmInvitationAtServer:(NSString*)url invitationToken:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
+- (void)confirmInvitation:(NSString*)invitationToken host:(NSString*)host callback:(GLHTTPRequestCallback)callback;
+
+- (void)getAccessTokenForInvitation:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
 
 @end
 
