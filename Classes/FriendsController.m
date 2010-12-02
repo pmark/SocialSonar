@@ -220,7 +220,7 @@
 																				error:&err];
 		if (!res || [res objectForKey:@"error"] != nil) 
         {
-			NSLog(@"Error deserializing response (for invitations/create) \"%@\": %@", responseBody, err);
+			NSLog(@"Error deserializing response (for invitation/create) \"%@\": %@", responseBody, err);
 			[[Geoloqi sharedInstance] errorProcessingAPIRequest];
 			return;
 		}

@@ -263,10 +263,7 @@
 
 - (void) viewInvitation
 {
-    if (!invitationController)
-    {
-        self.invitationController = [[[InvitationController alloc] initWithInvitation:currentInvitation] autorelease];
-    }
+    self.invitationController = [[[InvitationController alloc] initWithInvitation:currentInvitation] autorelease];
     
     for (UIViewController *c in [tabBarController viewControllers])
     {

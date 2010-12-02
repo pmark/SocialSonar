@@ -56,7 +56,9 @@ typedef void (^GLHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 - (NSDictionary *)getInvitationAtServer:(NSString *)url token:(NSString *)invitationToken callback:(GLHTTPRequestCallback)callback;
 
-- (void)acceptInvitationAtServer:(NSString*)url invitationToken:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
+- (void)claimInvitationAtServer:(NSString*)url invitationToken:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
+
+- (void)confirmInvitationAtServer:(NSString*)url invitationToken:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
 
 @end
 
