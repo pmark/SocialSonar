@@ -67,7 +67,7 @@
 
 #pragma mark -
 
-- (GLHTTPRequestCallback)getAccessTokenCallback {
+- (LQHTTPRequestCallback)getAccessTokenCallback {
 	if (getAccessTokenCallback) return getAccessTokenCallback;
     
     return getAccessTokenCallback = [^(NSError *error, NSString *responseBody) 

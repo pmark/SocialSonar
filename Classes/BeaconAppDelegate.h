@@ -18,7 +18,7 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
-    GLHTTPRequestCallback getInvitationCallback;
+    LQHTTPRequestCallback getInvitationCallback;
     
     NSDictionary *currentInvitation;
     InvitationController *invitationController;

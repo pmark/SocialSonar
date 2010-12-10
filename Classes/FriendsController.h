@@ -16,7 +16,7 @@
 {
     UIBarButtonItem *addButtonItem;
     NSMutableArray *friends;
-	GLHTTPRequestCallback invitationCreatedCallback;
+	LQHTTPRequestCallback invitationCreatedCallback;
     NSString *invitationToken;
 }
 

@@ -7,7 +7,8 @@
 //
 
 #import "MapController.h"
-
+#import "CJSONDeserializer.h"
+#import "Friend.h"
 
 @implementation MapController
 
@@ -36,7 +37,8 @@
 //	SM3DAR.delegate = self;	
 //    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
 //    [self.view addSubview:SM3DAR.view];
-    
+
+    [self loadPointsOfInterest];
 }
 
 - (void) sm3darViewDidLoad
@@ -44,9 +46,37 @@
     // TODO: set 3DAR delegate at init time.
 }
 
+- (LQHTTPRequestCallback)friendPositionsCallback {
+	if (friendPositionsCallback) return friendPositionsCallback;
+    
+	return friendPositionsCallback = [^(NSError *error, NSString *responseBody) 
+    {
+        NSLog(@"Friend locations fetched.");
+        
+        NSLog(@"Response: %@", responseBody);
+        return;
+        
+        NSError *err = nil;
+        NSDictionary *res = [[CJSONDeserializer deserializer] 
+                             deserializeAsDictionary:[responseBody dataUsingEncoding:NSUTF8StringEncoding]
+                                               error:&err];
+        
+        if (!res || [res objectForKey:@"error"] != nil) 
+        {
+            NSLog(@"Error deserializing response (for location/last) \"%@\": %@", responseBody, err);
+            [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+            return;
+        }
+                
+    } copy];
+}
+
 - (void) loadPointsOfInterest
 {
-	// TODO: fetch friend locations
+	// Fetch friend locations.
+    
+    [[Geoloqi sharedInstance] getLastPositions:[Friend allFriends] 
+                                      callback:[self friendPositionsCallback]];
 	
 }
 

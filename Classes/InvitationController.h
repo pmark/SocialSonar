@@ -13,9 +13,9 @@
 {
     IBOutlet UIWebView *webView;
     NSDictionary *invitation;
-    GLHTTPRequestCallback claimInvitationBlock;
-    GLHTTPRequestCallback confirmInvitationBlock;
-    GLHTTPRequestCallback invitationCreatedCallback;
+    LQHTTPRequestCallback claimInvitationBlock;
+    LQHTTPRequestCallback confirmInvitationBlock;
+    LQHTTPRequestCallback invitationCreatedCallback;
     NSDictionary *reciprocalInvitation;
     NSString *host;
 }

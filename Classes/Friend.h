@@ -10,7 +10,7 @@
 
 @interface Friend : NSManagedObject  
 {
-    GLHTTPRequestCallback getAccessTokenCallback;
+    LQHTTPRequestCallback getAccessTokenCallback;
 }
 
 - (id) initWithName:(NSString *)name;

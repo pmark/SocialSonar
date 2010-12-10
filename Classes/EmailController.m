@@ -33,7 +33,7 @@
     NSURL *apiServerURL = [NSURL URLWithString:[APP_DELEGATE apiServerURL]];
     NSString *apiHost = apiServerURL.host;
     
-    body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_GLUSER_SERVER}}" withString:apiHost];
+    body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_LQUSER_SERVER}}" withString:apiHost];
     body = [body stringByReplacingOccurrencesOfString:@"{{INVITATION_CODE}}" withString:invitationCode];
 
     [self setMessageBody:body isHTML:YES];

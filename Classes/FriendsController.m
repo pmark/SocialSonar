@@ -187,7 +187,7 @@
     }    
 }
 
-- (GLHTTPRequestCallback)invitationCreatedCallback {
+- (LQHTTPRequestCallback)invitationCreatedCallback {
 	if (invitationCreatedCallback) return invitationCreatedCallback;
 
 	return invitationCreatedCallback = [^(NSError *error, NSString *responseBody) 

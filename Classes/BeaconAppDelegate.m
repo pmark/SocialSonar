@@ -277,7 +277,7 @@
     [self.tabBarController presentModalViewController:invitationController animated:NO];
 }
 
-- (GLHTTPRequestCallback)getInvitationCallback 
+- (LQHTTPRequestCallback)getInvitationCallback 
 {
 	if (getInvitationCallback) return getInvitationCallback;
     

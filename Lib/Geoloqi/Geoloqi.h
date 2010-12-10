@@ -7,62 +7,96 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 #define GL_OAUTH_CLIENT_ID	@"1"
 #define GL_OAUTH_SECRET		@"1"
 #define GL_API_URL          @"https://api.geoloqi.com/1/"
 
 
-static NSString *const GLAuthenticationSucceededNotification = @"GLAuthenticationSucceededNotification";
+static NSString *const LQAuthenticationSucceededNotification = @"LQAuthenticationSucceededNotification";
 
-typedef void (^GLHTTPRequestCallback)(NSError *error, NSString *responseBody);
+typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 
-@interface Geoloqi : NSObject 
-{
-}
+@interface Geoloqi : NSObject {}
 
 + (Geoloqi *) sharedInstance;
 
-- (void)setOauthClientID:(NSString*)clientID secret:(NSString*)secret;
+#pragma mark Application
 
-- (void)createGeonote:(NSString *)text latitude:(float)latitude longitude:(float)longitude radius:(float)radius callback:(GLHTTPRequestCallback)callback;
+- (void)createGeonote:(NSString *)text latitude:(float)latitude longitude:(float)longitude radius:(float)radius callback:(LQHTTPRequestCallback)callback;
 
-- (void)layerAppList:(GLHTTPRequestCallback)callback;
+- (void)createLink:(NSString *)description minutes:(NSInteger)minutes callback:(LQHTTPRequestCallback)callback;
 
-- (NSDictionary*)getInvitation:(NSString*)invitationToken;
+- (void)layerAppList:(LQHTTPRequestCallback)callback;
 
-- (void)createLink:(NSString *)description minutes:(NSInteger)minutes callback:(GLHTTPRequestCallback)callback;
+- (void)subscribeToLayer:(NSString *)layerID callback:(LQHTTPRequestCallback)callback;
 
-- (void)subscribeToLayer:(NSString *)layerID callback:(GLHTTPRequestCallback)callback;
+- (void)getLastPositions:(NSArray *)tokens callback:(LQHTTPRequestCallback)callback;
+
+#pragma mark Location
+
+- (void)startOrStopMonitoringLocationIfNecessary;
+- (void)setLocationUpdatesTo:(BOOL)state;
+- (void)setDistanceFilterTo:(CLLocationDistance)distance;
+- (void)setTrackingFrequencyTo:(NSTimeInterval)frequency;
+- (void)setSendingFrequencyTo:(NSTimeInterval)frequency;
+
+// Getters for location manager variables
+- (CLLocation *)currentLocation;
+- (BOOL)locationUpdatesState;
+- (CLLocationDistance)distanceFilterDistance;
+- (NSTimeInterval)trackingFrequency;
+- (NSTimeInterval)sendingFrequency;
+- (NSUInteger)locationQueueCount;
+
+- (void)loadHistory:(NSDictionary *)params callback:(LQHTTPRequestCallback)callback;
+// sendLocationData takes an array of formatted dictionaries, can be generated using dictionaryFromLocation:
+- (void)sendLocationData:(NSMutableArray *)points callback:(LQHTTPRequestCallback)callback;
+- (void)sendQueuedPoints;
+- (NSDictionary *)dictionaryFromLocation:(CLLocation *)location;
+
+#pragma mark Authentication
 
 - (void)authenticateWithUsername:(NSString *)username
 						password:(NSString *)password;
-
 - (void)createAccountWithUsername:(NSString *)username
                      emailAddress:(NSString *)emailAddress;
-
-- (void)createAnonymousAccount:(NSString *)name;
+- (void)createAnonymousAccount;
+- (void)createAnonymousAccount:(NSString*)name;
 
 - (void)initTokenAndGetUsername;
+
+#pragma mark Invitation
+
+- (void)createInvitation:(LQHTTPRequestCallback)callback;
+
+- (void)getInvitationAtHost:(NSString *)host token:(NSString *)invitationToken callback:(LQHTTPRequestCallback)callback;
+
+- (void)claimInvitation:(NSString*)invitationToken host:(NSString*)host callback:(LQHTTPRequestCallback)callback;
+
+- (void)confirmInvitation:(NSString*)invitationToken host:(NSString*)host callback:(LQHTTPRequestCallback)callback;
+
+- (void)getAccessTokenForInvitation:(NSString*)invitationToken callback:(LQHTTPRequestCallback)callback;
+
+#pragma mark -
+
+- (void)setOauthClientID:(NSString*)clientID secret:(NSString*)secret;
+
+- (void)setOauthAccessToken:(NSString *)accessToken;
 
 - (void)errorProcessingAPIRequest;
 
 - (NSString *)refreshToken;
 
+- (NSString *)serverURL;
+
 - (BOOL)hasRefreshToken;
 
-- (void)createInvitation:(GLHTTPRequestCallback)callback;
+- (NSString *)hardware;
 
-- (void)getInvitationAtHost:(NSString *)host token:(NSString *)invitationToken callback:(GLHTTPRequestCallback)callback;
++ (NSString *)base64encode:(NSData *)data;
 
-- (void)claimInvitation:(NSString*)invitationToken host:(NSString*)host callback:(GLHTTPRequestCallback)callback;
-
-- (void)confirmInvitation:(NSString*)invitationToken host:(NSString*)host callback:(GLHTTPRequestCallback)callback;
-
-- (void)getAccessTokenForInvitation:(NSString*)invitationToken callback:(GLHTTPRequestCallback)callback;
 
 @end
-
-
-

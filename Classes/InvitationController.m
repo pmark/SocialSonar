@@ -94,7 +94,7 @@
 	}    
 }
 
-- (GLHTTPRequestCallback)claimInvitationBlock 
+- (LQHTTPRequestCallback)claimInvitationBlock 
 {
 	if (claimInvitationBlock) return claimInvitationBlock;
     
@@ -125,7 +125,7 @@
            } copy];
 }
 
-- (GLHTTPRequestCallback)confirmInvitationBlock {
+- (LQHTTPRequestCallback)confirmInvitationBlock {
 	if (confirmInvitationBlock) return confirmInvitationBlock;
     
 	return confirmInvitationBlock = [^(NSError *error, NSString *responseBody) 

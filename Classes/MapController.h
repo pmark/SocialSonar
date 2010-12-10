@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SM3DAR.h"
+#import "Geoloqi.h"
 
 @interface MapController : UIViewController <SM3DAR_Delegate> 
 {
-	
+	LQHTTPRequestCallback friendPositionsCallback;
 }
 
 @end
