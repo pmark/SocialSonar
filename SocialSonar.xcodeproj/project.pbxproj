@@ -58,6 +58,8 @@
 		A645420A12A231580014F23C /* InvitationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A645420812A231580014F23C /* InvitationController.xib */; };
 		A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B3129A25AC0043FECC /* MapKit.framework */; };
 		A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B9129A25BB0043FECC /* CoreLocation.framework */; };
+		A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B6C12B4B74E00C28BF8 /* SphereView.m */; };
+		A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */; };
 		A6E1FBAB12A7B4A000C572BF /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */; };
 /* End PBXBuildFile section */
 
@@ -143,6 +145,11 @@
 		A645420812A231580014F23C /* InvitationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvitationController.xib; sourceTree = "<group>"; };
 		A679D9B3129A25AC0043FECC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A679D9B9129A25BB0043FECC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A6985B6B12B4B74E00C28BF8 /* SphereView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereView.h; sourceTree = "<group>"; };
+		A6985B6C12B4B74E00C28BF8 /* SphereView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SphereView.m; sourceTree = "<group>"; };
+		A6985B7A12B4B89A00C28BF8 /* TexturedGeometryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturedGeometryView.h; sourceTree = "<group>"; };
+		A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedGeometryView.m; sourceTree = "<group>"; };
+		A6985B8112B4B8BE00C28BF8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A6C4834E12B42B02006E6F4F /* LQConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LQConstants.h; sourceTree = "<group>"; };
 		A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -174,6 +181,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A6985B8112B4B8BE00C28BF8 /* Constants.h */,
 				28216C950DB411BC00E5133A /* MapController.h */,
 				28216C960DB411BC00E5133A /* MapController.m */,
 				1D3623240D0F684500981E51 /* BeaconAppDelegate.h */,
@@ -184,6 +192,10 @@
 				A61094FE129A2C3F00A92CA6 /* Friend.m */,
 				A6109500129A309A00A92CA6 /* SingleFriendController.h */,
 				A6109501129A309A00A92CA6 /* SingleFriendController.m */,
+				A6985B6B12B4B74E00C28BF8 /* SphereView.h */,
+				A6985B6C12B4B74E00C28BF8 /* SphereView.m */,
+				A6985B7A12B4B89A00C28BF8 /* TexturedGeometryView.h */,
+				A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */,
 				A6109538129A342000A92CA6 /* FriendsController.h */,
 				A6109539129A342000A92CA6 /* FriendsController.m */,
 				A610953A129A342000A92CA6 /* FriendsController.xib */,
@@ -471,6 +483,8 @@
 				A63803C512A761E1009057BF /* CJSONScanner.m in Sources */,
 				A63803C612A761E1009057BF /* CJSONSerializer.m in Sources */,
 				A63803C712A761E1009057BF /* CSerializedJSONData.m in Sources */,
+				A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */,
+				A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
