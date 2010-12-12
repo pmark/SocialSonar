@@ -6,4 +6,6 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
     #import <CoreData/CoreData.h>
+    #import "Geoloqi.h"
+    #import "LQConstants.h"
 #endif

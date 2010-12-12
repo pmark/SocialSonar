@@ -15,6 +15,7 @@
 
 - (id) initWithName:(NSString *)name;
 + (NSMutableArray *) allFriends;
++ (NSMutableArray *) allFriendAccessTokens;
 + (void) getOpenAccessTokens;
 
 @property (nonatomic, retain) NSString *name;

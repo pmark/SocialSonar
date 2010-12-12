@@ -9,17 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define GL_OAUTH_CLIENT_ID	@"1"
-#define GL_OAUTH_SECRET		@"1"
-#define GL_API_URL          @"https://api.geoloqi.com/1/"
-
-
+static NSString *const LQLocationUpdateManagerDidUpdateLocationNotification = @"LQLocationUpdateManagerDidUpdateLocationNotification";
+static NSString *const LQLocationUpdateManagerStartedSendingLocations = @"LQLocationUpdateManagerStartedSendingLocations";
+static NSString *const LQLocationUpdateManagerFinishedSendingLocations = @"LQLocationUpdateManagerFinishedSendingLocations";
+static NSString *const LQLocationUpdateManagerFinishedSendingSingleLocation = @"LQLocationUpdateManagerFinishedSendingSingleLocation";
+static NSString *const LQLocationUpdateManagerErrorSendingSingleLocation = @"LQLocationUpdateManagerErrorSendingSingleLocation";
 static NSString *const LQAuthenticationSucceededNotification = @"LQAuthenticationSucceededNotification";
+static NSString *const LQAuthenticationFailedNotification = @"LQAuthenticationFailedNotification";
+static NSString *const LQAPIUnknownErrorNotification = @"LQAPIUnknownErrorNotification";
+
 
 typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 
-@interface Geoloqi : NSObject {}
+@interface Geoloqi : NSObject 
+{
+}
 
 + (Geoloqi *) sharedInstance;
 
@@ -37,13 +42,18 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 #pragma mark Location
 
+- (void)singleLocationUpdate;
+
 - (void)startOrStopMonitoringLocationIfNecessary;
-- (void)setLocationUpdatesTo:(BOOL)state;
+- (void)startLocationUpdates;
+- (void)stopLocationUpdates;
 - (void)setDistanceFilterTo:(CLLocationDistance)distance;
 - (void)setTrackingFrequencyTo:(NSTimeInterval)frequency;
 - (void)setSendingFrequencyTo:(NSTimeInterval)frequency;
 
-// Getters for location manager variables
+- (NSDate *)lastLocationDate;
+- (NSDate *)lastUpdateDate;
+- (CLLocation *)currentSingleLocation;
 - (CLLocation *)currentLocation;
 - (BOOL)locationUpdatesState;
 - (CLLocationDistance)distanceFilterDistance;
@@ -52,7 +62,6 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 - (NSUInteger)locationQueueCount;
 
 - (void)loadHistory:(NSDictionary *)params callback:(LQHTTPRequestCallback)callback;
-// sendLocationData takes an array of formatted dictionaries, can be generated using dictionaryFromLocation:
 - (void)sendLocationData:(NSMutableArray *)points callback:(LQHTTPRequestCallback)callback;
 - (void)sendQueuedPoints;
 - (NSDictionary *)dictionaryFromLocation:(CLLocation *)location;
@@ -94,9 +103,7 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 - (BOOL)hasRefreshToken;
 
-- (NSString *)hardware;
-
-+ (NSString *)base64encode:(NSData *)data;
+- (BOOL)hasAccessToken;
 
 
 @end

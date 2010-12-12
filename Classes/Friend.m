@@ -88,7 +88,17 @@
                  
                  NSLog(@"Fetched token: %@", res);
                  
-                 //invitationToken = [[res objectForKey:@"access_token"] retain];        
+                 self.accessToken = [res objectForKey:@"access_token"];
+                 
+                 // Commit the change.
+                 NSError *saveError;
+                 
+                 NSLog(@"Saving friend's accessToken: %@", self.accessToken);
+                 
+                 if (![MOCONTEXT save:&saveError]) 
+                 {
+                     NSLog(@"ERROR saving friend's access token: %@", [saveError localizedDescription]);        
+                 }                     
                  
                  
              } copy];
@@ -110,14 +120,22 @@
 {
     for (Friend *oneFriend in [Friend allFriends])
     {
-        NSString *token = [oneFriend accessToken];
-
-        NSLog(@"Checking friend: %@", [oneFriend description]);
+        NSString *atok = [oneFriend accessToken];
+        NSString *itok = [oneFriend invitationToken];
         
-        if ([token length] > 0)
-            continue;
+        if ([atok length] > 0)
+        {
+            NSLog(@"Friend with invitationToken '%@' already has accessToken '%@'", 
+                  itok, atok);
+            continue;            
+        }
         
-        [oneFriend getAccessToken];
+        
+        if ([itok length] > 0)
+        {
+            NSLog(@"Checking friend with invitationToken '%@'", itok);        
+            [oneFriend getAccessToken];
+        }
     }
     
 }
@@ -153,6 +171,28 @@
     
     return [mutableFetchResults autorelease];
 }    
+
++ (NSMutableArray *) allFriendAccessTokens
+{
+    NSArray *friends = [Friend allFriends];
+    
+    if (!friends || [friends count] == 0)
+        return nil;
+    
+    NSMutableArray *tokens = [NSMutableArray arrayWithCapacity:[friends count]];
+    
+    for (Friend *friend in friends)
+    {
+        NSString *t = friend.accessToken;
+        
+        if (!t)
+            continue;
+        
+        [tokens addObject:t];
+    }
+    
+    return tokens;
+}
 
 #pragma mark -
 

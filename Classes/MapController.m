@@ -34,9 +34,26 @@
 {
     [super viewDidLoad];
 	
-//	SM3DAR.delegate = self;	
-//    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-//    [self.view addSubview:SM3DAR.view];
+	SM3DAR.delegate = self;	
+    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+
+    CGRect f = self.view.bounds;
+    f.size.height -= 49;  // tab bar height
+    SM3DAR.view.frame = f;
+    SM3DAR.map.frame = f;
+    
+    f = SM3DAR.iconLogo.frame;
+    f.origin.y = SM3DAR.view.frame.size.height - f.size.height - 10;
+    SM3DAR.iconLogo.frame = f;
+    
+    [self.view addSubview:SM3DAR.view];
+
+    
+//    CGRect lf = SM3DAR.iconLogo.frame;
+//    lf.origin.y -= 50;
+//    SM3DAR.iconLogo.frame = lf;
+    
+    NSLog(@"3DAR view: %@", SM3DAR.view);
 
     [self loadPointsOfInterest];
 }
@@ -51,9 +68,13 @@
     
 	return friendPositionsCallback = [^(NSError *error, NSString *responseBody) 
     {
-        NSLog(@"Friend locations fetched.");
+        if (error)
+        {
+            NSLog(@"Error fetching friend locations: %@", [error localizedDescription]);
+            return;
+        }
         
-        NSLog(@"Response: %@", responseBody);
+        NSLog(@"Friend locations fetched: %@", responseBody);        
         return;
         
         NSError *err = nil;
@@ -63,7 +84,7 @@
         
         if (!res || [res objectForKey:@"error"] != nil) 
         {
-            NSLog(@"Error deserializing response (for location/last) \"%@\": %@", responseBody, err);
+            NSLog(@"Error deserializing response (for share/last) \"%@\": %@", responseBody, err);
             [[Geoloqi sharedInstance] errorProcessingAPIRequest];
             return;
         }
@@ -71,15 +92,23 @@
     } copy];
 }
 
+- (void) fetchFriends
+{
+    [[Geoloqi sharedInstance] getLastPositions:[Friend allFriendAccessTokens] 
+                                      callback:[self friendPositionsCallback]];
+}
+
 - (void) loadPointsOfInterest
 {
 	// Fetch friend locations.
     
-    [[Geoloqi sharedInstance] getLastPositions:[Friend allFriends] 
-                                      callback:[self friendPositionsCallback]];
 	
 }
 
+- (void) logoWasTapped
+{
+    [self fetchFriends];
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.

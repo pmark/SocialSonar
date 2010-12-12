@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Geoloqi.h"
+#import "LQConstants.h"
 #import "InvitationController.h"
 
 @interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 

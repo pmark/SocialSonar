@@ -52,16 +52,14 @@
 
     [[Geoloqi sharedInstance] setOauthClientID:OAUTH_CLIENT_ID secret:OAUTH_SECRET];
     
-	if ([[Geoloqi sharedInstance] hasRefreshToken])
+	if (![[Geoloqi sharedInstance] hasAccessToken])
     {
-        // If use the refresh token to get a new access token right now
-		[[Geoloqi sharedInstance] initTokenAndGetUsername];
-    }
-	else 
-    {
-        // Else there is no refresh token present, show the login/signup screen
+        NSLog(@"\n\nCreating anonymous user\n\n");
+        
 		[[Geoloqi sharedInstance] createAnonymousAccount:@"Cy Swerdlow"];
 	}
+    
+    
     
      
     // Add the tab bar controller's view to the window and display.

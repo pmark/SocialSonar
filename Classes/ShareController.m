@@ -7,7 +7,7 @@
 //
 
 #import "ShareController.h"
-
+#import "Geoloqi.h"
 
 @implementation ShareController
 
@@ -111,6 +111,17 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    switch (indexPath.section) {
+        case 0:
+            // Update now
+            NSLog(@"Sending single update...");
+            
+            [[Geoloqi sharedInstance] singleLocationUpdate];
+            
+            break;
+        default:
+            break;
+    }
 }
 
 
