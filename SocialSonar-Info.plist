@@ -37,5 +37,7 @@
 			<string>com.seanoteworthy.socialsonar</string>
 		</dict>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 </dict>
 </plist>

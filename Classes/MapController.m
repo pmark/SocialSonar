@@ -15,16 +15,17 @@
 @implementation MapController
 
 
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
+{
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-	if (self) {
-        // Custom initialization
+
+	if (self) 
+    {
+        NSLog(@"init map controller");
     }
+    
     return self;
 }
-*/
 
 /*
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -37,7 +38,7 @@
     [super viewDidLoad];
 	
 	SM3DAR.delegate = self;	
-    SM3DAR.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    SM3DAR.view.backgroundColor = [UIColor clearColor];
 
     CGRect f = self.view.bounds;
     f.size.height -= 49;  // tab bar height

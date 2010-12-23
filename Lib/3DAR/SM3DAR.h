@@ -3,9 +3,9 @@
  *  3DAR API header
  *
  *  Copyright 2010 Spot Metrix, Inc. All rights reserved.
- *  http://spotmetrix.com
+ *  Please see http://spotmetrix.com
  *
- *  Version 4.0.6
+ *  Version 4.0.7 Beta 1
  *
  */
 
@@ -115,6 +115,8 @@ typedef NSObject<SM3DAR_PointProtocol> SM3DAR_Point;
 @property (nonatomic, assign) CGFloat mapZoomPadding;
 @property (nonatomic, assign) CGFloat cameraAltitudeMeters;
 @property (nonatomic, assign) BOOL running;
+@property (nonatomic, retain) UIView *hudView;
+
 
 + (SM3DAR_Controller*)sharedController;
 + (SM3DAR_Controller*)reinit;
@@ -343,3 +345,4 @@ typedef NSObject<SM3DAR_PointProtocol> SM3DAR_Point;
 #define SM3DAR_POI_VIEW_CLASS_NAME @"view_class_name"
 #define SM3DAR_POI_DEFAULT_VIEW_CLASS_NAME @"SM3DAR_IconMarkerView"
 
+#define SM3DAR [SM3DAR_Controller sharedController]
