@@ -19,6 +19,7 @@
     [friends release];
     [addButtonItem release];
     [invitationToken release];
+    [tableView release];
     
     [super dealloc];
 }
@@ -29,7 +30,7 @@
 {
 	self.friends = [Friend allFriends];    
     
-    [self.tableView reloadData];
+    [tableView reloadData];
 }
 
 #pragma mark -
@@ -48,16 +49,16 @@
 {
     [super viewWillAppear:inAnimated];
     
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:inAnimated];
+    [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:inAnimated];
 
-    [self.tableView reloadData];
+    [tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)inAnimated
 {
     [super viewDidAppear:inAnimated];
 
-    [self.tableView flashScrollIndicators];
+    [tableView flashScrollIndicators];
     
     [Friend getOpenAccessTokens];
 }
@@ -101,11 +102,11 @@
 }
 
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *) tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {    
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) 
     {
@@ -222,11 +223,16 @@
 	} copy];
 }
 
-- (IBAction) add:(id)inSender
+- (IBAction) add:(id)sender
 {
     NSLog(@"Creating invitation...");
     
     [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];    
+}
+
+- (IBAction) done:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) createFriend
@@ -248,11 +254,11 @@
 	
     [friends insertObject:friend atIndex:0];
     
-    [self.tableView reloadData];
+    [tableView reloadData];
     
     //	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];    
-    //  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    //	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    //  [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //	[tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
 }
 

@@ -10,11 +10,12 @@
 #import "Geoloqi.h"
 #import "LQConstants.h"
 #import "InvitationController.h"
+#import "MapController.h"
 
 @interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 
 {
     UIWindow *window;
-    UITabBarController *tabBarController;
+    MapController *mapController;
     
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;

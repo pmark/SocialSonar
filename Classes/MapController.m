@@ -11,27 +11,20 @@
 #import "Friend.h"
 #import "SM3DAR.h"
 #import "SphereView.h"
+#import "Constants.h"
+#import "ShareController.h"
+#import "SingleFriendController.h"
+#import "FriendsController.h"
 
 @implementation MapController
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
+- (void)dealloc 
 {
-	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-
-	if (self) 
-    {
-        NSLog(@"init map controller");
-    }
+    RELEASE(hud);
     
-    return self;
+    [super dealloc];
 }
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
 
 - (void) viewDidLoad 
 {
@@ -40,6 +33,7 @@
 	SM3DAR.delegate = self;	
     SM3DAR.view.backgroundColor = [UIColor clearColor];
 
+/*
     CGRect f = self.view.bounds;
     f.size.height -= 49;  // tab bar height
     SM3DAR.view.frame = f;
@@ -48,17 +42,14 @@
     f = SM3DAR.iconLogo.frame;
     f.origin.y = SM3DAR.view.frame.size.height - f.size.height - 10;
     SM3DAR.iconLogo.frame = f;
+*/
     
-    [self.view addSubview:SM3DAR.view];
+    SM3DAR.hudView = hud;
+    
+    [self.view insertSubview:SM3DAR.view atIndex:0];
+    
 
-    
-//    CGRect lf = SM3DAR.iconLogo.frame;
-//    lf.origin.y -= 50;
-//    SM3DAR.iconLogo.frame = lf;
-    
-    NSLog(@"3DAR view: %@", SM3DAR.view);
-
-    [self loadPointsOfInterest];
+//    [self loadPointsOfInterest];
 }
 
 - (void) sm3darViewDidLoad
@@ -225,9 +216,20 @@
 	// e.g. self.myOutlet = nil;
 }
 
+#pragma mark Button actions
 
-- (void)dealloc {
-    [super dealloc];
+- (IBAction) friendsButtonTapped:(UIButton *)button
+{
+    SingleFriendController *c = [[SingleFriendController alloc] init];
+    [self presentModalViewController:c animated:YES];
+    [c release];
+}
+
+- (IBAction) settingsButtonTapped:(UIButton *)button
+{
+    ShareController *c = [[ShareController alloc] init];
+    [self presentModalViewController:c animated:YES];
+    [c release];
 }
 
 @end

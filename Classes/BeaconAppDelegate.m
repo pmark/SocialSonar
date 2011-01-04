@@ -60,10 +60,9 @@
 	}
     
     
-    
+    mapController = [[MapController alloc] init];
      
-    // Add the tab bar controller's view to the window and display.
-    [self.window addSubview:tabBarController.view];
+    [self.window addSubview:mapController.view];
     [self.window makeKeyAndVisible];
 
     return YES;

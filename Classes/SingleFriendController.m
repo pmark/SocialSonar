@@ -15,6 +15,15 @@
     [super dealloc];
 }
 
+- (id) init 
+{
+    if (self = [super initWithNibName:@"FriendsController" bundle:nil])
+    {
+        
+    }
+    
+    return self;
+}
 
 
 #pragma mark -
@@ -34,11 +43,11 @@
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) 
     {

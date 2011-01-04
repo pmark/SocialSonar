@@ -13,6 +13,10 @@
 @interface MapController : UIViewController <SM3DAR_Delegate> 
 {
 	LQHTTPRequestCallback friendPositionsCallback;
+    IBOutlet UIView *hud;
 }
+
+- (IBAction) settingsButtonTapped:(UIButton *)button;
+- (IBAction) friendsButtonTapped:(UIButton *)button;
 
 @end
