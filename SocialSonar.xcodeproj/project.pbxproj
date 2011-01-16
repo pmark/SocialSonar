@@ -55,13 +55,15 @@
 		A64541E412A22BAD0014F23C /* invitation_email.html in Resources */ = {isa = PBXBuildFile; fileRef = A64541E312A22BAD0014F23C /* invitation_email.html */; };
 		A645420912A231580014F23C /* InvitationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A645420712A231580014F23C /* InvitationController.m */; };
 		A645420A12A231580014F23C /* InvitationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A645420812A231580014F23C /* InvitationController.xib */; };
-		A67394F012C2F2DD0075AA68 /* lib3DAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A67394EF12C2F2DD0075AA68 /* lib3DAR.a */; };
 		A67394F312C2F3460075AA68 /* MapController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A67394F212C2F3460075AA68 /* MapController.xib */; };
 		A679D9B4129A25AC0043FECC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B3129A25AC0043FECC /* MapKit.framework */; };
 		A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A679D9B9129A25BB0043FECC /* CoreLocation.framework */; };
+		A6981E5912E2DCF30087245B /* lib3DAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6981E5812E2DCF30087245B /* lib3DAR.a */; };
+		A6981E7812E2DDDE0087245B /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6981E7712E2DDDE0087245B /* libGeoloqi.a */; };
+		A6981EBD12E2E2AD0087245B /* NicknameController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6981EBB12E2E2AD0087245B /* NicknameController.m */; };
+		A6981EBE12E2E2AD0087245B /* NicknameController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6981EBC12E2E2AD0087245B /* NicknameController.xib */; };
 		A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B6C12B4B74E00C28BF8 /* SphereView.m */; };
 		A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */; };
-		A6E1FBAB12A7B4A000C572BF /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,17 +145,20 @@
 		A645420612A231580014F23C /* InvitationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationController.h; sourceTree = "<group>"; };
 		A645420712A231580014F23C /* InvitationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationController.m; sourceTree = "<group>"; };
 		A645420812A231580014F23C /* InvitationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InvitationController.xib; sourceTree = "<group>"; };
-		A67394EF12C2F2DD0075AA68 /* lib3DAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib3DAR.a; path = "../../Library/SM3DARLibrary/build/Debug-iphoneos/lib3DAR.a"; sourceTree = SOURCE_ROOT; };
 		A67394F212C2F3460075AA68 /* MapController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapController.xib; sourceTree = "<group>"; };
 		A679D9B3129A25AC0043FECC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A679D9B9129A25BB0043FECC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A6981E5812E2DCF30087245B /* lib3DAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib3DAR.a; path = ../../LibraryOLD/SM3DARLibrary/build/lib3DAR.a; sourceTree = SOURCE_ROOT; };
+		A6981E7712E2DDDE0087245B /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphonesimulator/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
+		A6981EBA12E2E2AD0087245B /* NicknameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameController.h; sourceTree = "<group>"; };
+		A6981EBB12E2E2AD0087245B /* NicknameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameController.m; sourceTree = "<group>"; };
+		A6981EBC12E2E2AD0087245B /* NicknameController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NicknameController.xib; sourceTree = "<group>"; };
 		A6985B6B12B4B74E00C28BF8 /* SphereView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SphereView.h; sourceTree = "<group>"; };
 		A6985B6C12B4B74E00C28BF8 /* SphereView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SphereView.m; sourceTree = "<group>"; };
 		A6985B7A12B4B89A00C28BF8 /* TexturedGeometryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturedGeometryView.h; sourceTree = "<group>"; };
 		A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedGeometryView.m; sourceTree = "<group>"; };
 		A6985B8112B4B8BE00C28BF8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A6C4834E12B42B02006E6F4F /* LQConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LQConstants.h; sourceTree = "<group>"; };
-		A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGeoloqi.a; path = "../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos/libGeoloqi.a"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +177,8 @@
 				A679D9BA129A25BB0043FECC /* CoreLocation.framework in Frameworks */,
 				A64540B012A217EB0014F23C /* CoreData.framework in Frameworks */,
 				A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */,
-				A6E1FBAB12A7B4A000C572BF /* libGeoloqi.a in Frameworks */,
-				A67394F012C2F2DD0075AA68 /* lib3DAR.a in Frameworks */,
+				A6981E5912E2DCF30087245B /* lib3DAR.a in Frameworks */,
+				A6981E7812E2DDDE0087245B /* libGeoloqi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +213,9 @@
 				A610955A129A374E00A92CA6 /* ShareController.h */,
 				A610955B129A374E00A92CA6 /* ShareController.m */,
 				A610955C129A374E00A92CA6 /* ShareController.xib */,
+				A6981EBA12E2E2AD0087245B /* NicknameController.h */,
+				A6981EBB12E2E2AD0087245B /* NicknameController.m */,
+				A6981EBC12E2E2AD0087245B /* NicknameController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -291,7 +299,7 @@
 		A6181284129A235E00828935 /* 3DAR */ = {
 			isa = PBXGroup;
 			children = (
-				A67394EF12C2F2DD0075AA68 /* lib3DAR.a */,
+				A6981E5812E2DCF30087245B /* lib3DAR.a */,
 				A6181285129A235E00828935 /* 3dar.plist */,
 				A6181286129A235E00828935 /* 3dar_logo.png */,
 				A6181288129A235E00828935 /* SM3DAR.h */,
@@ -338,7 +346,7 @@
 		A638036612A75E09009057BF /* Geoloqi */ = {
 			isa = PBXGroup;
 			children = (
-				A6E1FBAA12A7B4A000C572BF /* libGeoloqi.a */,
+				A6981E7712E2DDDE0087245B /* libGeoloqi.a */,
 				A638036712A75E14009057BF /* Geoloqi.h */,
 				A6C4834E12B42B02006E6F4F /* LQConstants.h */,
 			);
@@ -450,6 +458,7 @@
 				A638039812A75FB1009057BF /* Default.png in Resources */,
 				A638039912A75FB1009057BF /* Icon.png in Resources */,
 				A67394F312C2F3460075AA68 /* MapController.xib in Resources */,
+				A6981EBE12E2E2AD0087245B /* NicknameController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +498,7 @@
 				A63803C712A761E1009057BF /* CSerializedJSONData.m in Sources */,
 				A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */,
 				A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */,
+				A6981EBD12E2E2AD0087245B /* NicknameController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,13 +518,8 @@
 				INFOPLIST_FILE = "SocialSonar-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Lib/3DAR\"",
-					"\"$(SRCROOT)/Lib/Geoloqi\"",
-					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphoneos\"",
-					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/FatBinary\"",
-					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Release-iphonesimulator\"",
+					"\"$(SRCROOT)/../../LibraryOLD/SM3DARLibrary/build\"",
 					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphonesimulator\"",
-					"\"$(SRCROOT)/../../Library/SM3DARLibrary/build/Debug-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -542,6 +547,9 @@
 					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Release-iphonesimulator\"",
 					"\"$(SRCROOT)/../../Geoloqi/Geoloqi-iPhone-Library/build/Debug-iphonesimulator\"",
 					"\"$(SRCROOT)/../../Library/SM3DARLibrary/build/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../Library/iOS/build/Debug-iphoneos\"",
+					"\"$(SRCROOT)/../../Library/iOS/build\"",
+					"\"$(SRCROOT)/../../LibraryOLD/SM3DARLibrary/build\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",

@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Geoloqi.h"
 #import "LQConstants.h"
+#import "Constants.h"
 #import "InvitationController.h"
 #import "MapController.h"
+#import "NicknameController.h"
 
-@interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> 
+@interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NicknameDelegate> 
 {
     UIWindow *window;
     MapController *mapController;
@@ -21,10 +23,14 @@
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     LQHTTPRequestCallback getInvitationCallback;
+    LQHTTPRequestCallback createPermanentAccessTokenCallback;
     
     NSDictionary *currentInvitation;
     InvitationController *invitationController;
     NSString *invitationHost;
+    NSString *permanentAccessToken;
+    NSString *nickname;
+    NicknameController *nicknameController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -36,11 +42,14 @@
 @property (nonatomic, readonly) NSString *applicationDocumentsDirectory;
 @property (nonatomic, retain) InvitationController *invitationController;
 @property (nonatomic, retain) NSString *invitationHost;
+@property (nonatomic, retain) NSString *permanentAccessToken;
+@property (nonatomic, retain) NSString *nickname;
 
 - (NSString *) html:(NSString *)urn;
 - (NSString *) apiServerURL;
 
 + (void)alertWithTitle:(NSString *)title message:(NSString *)msg;
+- (LQHTTPRequestCallback)createPermanentAccessTokenCallback;
 
 @end
 

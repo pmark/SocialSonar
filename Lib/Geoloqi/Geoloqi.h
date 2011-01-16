@@ -3,7 +3,6 @@
  *  Geoloqi API 
  *
  *  Copyright 2010 Geoloqi.com. All rights reserved.
- *
  */
 
 #import <Foundation/Foundation.h>
@@ -16,8 +15,14 @@ static NSString *const LQLocationUpdateManagerFinishedSendingSingleLocation = @"
 static NSString *const LQLocationUpdateManagerErrorSendingSingleLocation = @"LQLocationUpdateManagerErrorSendingSingleLocation";
 static NSString *const LQAuthenticationSucceededNotification = @"LQAuthenticationSucceededNotification";
 static NSString *const LQAuthenticationFailedNotification = @"LQAuthenticationFailedNotification";
+static NSString *const LQAnonymousSignupSucceededNotification = @"LQAnonymousSignupSucceededNotification";
+static NSString *const LQAnonymousSignupFailedNotification = @"LQAnonymousSignupFailedNotification";
 static NSString *const LQAPIUnknownErrorNotification = @"LQAPIUnknownErrorNotification";
 
+enum {
+	LQPresetBattery = 0,
+	LQPresetRealtime
+};
 
 typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
@@ -37,8 +42,9 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 - (void)layerAppList:(LQHTTPRequestCallback)callback;
 
 - (void)subscribeToLayer:(NSString *)layerID callback:(LQHTTPRequestCallback)callback;
-
 - (void)getLastPositions:(NSArray *)tokens callback:(LQHTTPRequestCallback)callback;
+- (void)unSubscribeFromLayer:(NSString *)layerID callback:(LQHTTPRequestCallback)callback;
+- (void)sendAPNDeviceToken:(NSString *)deviceToken callback:(LQHTTPRequestCallback)callback;
 
 #pragma mark Location
 
@@ -68,12 +74,12 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 #pragma mark Authentication
 
-- (void)authenticateWithUsername:(NSString *)username
-						password:(NSString *)password;
-- (void)createAccountWithUsername:(NSString *)username
-                     emailAddress:(NSString *)emailAddress;
+- (void)authenticateWithEmail:(NSString *)emailAddress password:(NSString *)password;
+- (void)createAccountWithEmailAddress:(NSString *)emailAddress name:(NSString *)name;
+
 - (void)createAnonymousAccount;
 - (void)createAnonymousAccount:(NSString*)name;
+- (void)setAnonymousAccountEmail:(NSString *)emailAddress name:(NSString *)name;
 
 - (void)initTokenAndGetUsername;
 
@@ -89,6 +95,8 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 - (void)getAccessTokenForInvitation:(NSString*)invitationToken callback:(LQHTTPRequestCallback)callback;
 
+- (void)createPermanentAccessToken:(LQHTTPRequestCallback)callback;
+
 #pragma mark -
 
 - (void)setOauthClientID:(NSString*)clientID secret:(NSString*)secret;
@@ -99,11 +107,14 @@ typedef void (^LQHTTPRequestCallback)(NSError *error, NSString *responseBody);
 
 - (NSString *)refreshToken;
 
+- (NSString *)accessToken;
+
 - (NSString *)serverURL;
 
 - (BOOL)hasRefreshToken;
 
-- (BOOL)hasAccessToken;
+- (void)logOut;
 
+- (NSString *)hardware;
 
 @end

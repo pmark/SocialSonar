@@ -9,9 +9,7 @@
 #import "BeaconAppDelegate.h"
 #import "InvitationController.h"
 #import "CJSONDeserializer.h"
-
-#define OAUTH_CLIENT_ID @"beacon"
-#define OAUTH_SECRET @"b68484a8148fed228d3329e6e87e59d8"
+#import "LQConstants.h"
 
 @implementation BeaconAppDelegate
 
@@ -19,6 +17,8 @@
 @synthesize tabBarController;
 @synthesize invitationController;
 @synthesize invitationHost;
+@synthesize permanentAccessToken;
+@synthesize nickname;
 
 - (void)dealloc {
     [tabBarController release];
@@ -28,14 +28,52 @@
     [persistentStoreCoordinator release];
     [invitationController release];
     [invitationHost release];
+    [permanentAccessToken release];
+    [nickname release];
     
     [super dealloc];
+}
+
+#pragma mark Geoloqi
+
+- (void) connectToGeoloqi
+{
+    
+    [[Geoloqi sharedInstance] setOauthClientID:LQ_OAUTH_CLIENT_ID secret:LQ_OAUTH_SECRET];
+    
+    
+    NSString *storedAccessToken = [[NSUserDefaults standardUserDefaults] stringForKey:CONFIG_PERMANENT_ACCESS_TOKEN];
+    
+    NSLog(@"\n\n\nWARNING: Using hard coded access token\n\n\n");
+    storedAccessToken = @"4a6-6525b138045d3502c1db910305a320151ee9b6d5"; 
+    
+    if ([storedAccessToken length] == 0)
+    {
+        // If user not logged in
+        // make an anonymous account
+        
+        NSLog(@"\n\nCreating anonymous user\n\n");
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(anonAccountCreated)
+                                                     name:LQAuthenticationSucceededNotification 
+                                                   object:nil];
+        
+		[[Geoloqi sharedInstance] createAnonymousAccount:self.nickname];
+        
+    }
+    else
+    {
+        [[Geoloqi sharedInstance] setOauthAccessToken:storedAccessToken];
+    }
+    
 }
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
+{    
 
     NSLog(@"application:didFinishLaunchingWithOptions:");
     
@@ -46,26 +84,39 @@
 		// Handle the error.
         NSLog(@"ERROR: Could not init Core Data.");
 	}
-    
-//    [[NSUserDefaults standardUserDefaults] setObject:@"http://2.2.255.38/1/" forKey:@"serverURL"];
-//    [[NSUserDefaults standardUserDefaults] setObject:@"http://tinybook.local/1/" forKey:@"serverURL"];
 
-    [[Geoloqi sharedInstance] setOauthClientID:OAUTH_CLIENT_ID secret:OAUTH_SECRET];
     
-	if (![[Geoloqi sharedInstance] hasAccessToken])
-    {
-        NSLog(@"\n\nCreating anonymous user\n\n");
-        
-		[[Geoloqi sharedInstance] createAnonymousAccount:@"Cy Swerdlow"];
-	}
-    
-    
-    mapController = [[MapController alloc] init];
-     
+    mapController = [[MapController alloc] init];         
     [self.window addSubview:mapController.view];
     [self.window makeKeyAndVisible];
 
+    
+    if ([self.nickname length] == 0)
+    {
+        // The user has not chosen a nickname,
+        // so this must be first run.
+        
+        nicknameController = [[NicknameController alloc] init];
+        nicknameController.delegate = self;
+        
+        [mapController presentModalViewController:nicknameController animated:NO];
+    }
+    else
+    {
+        // There is a nickname already.
+        [self connectToGeoloqi];
+    }    
+    
     return YES;
+}
+
+- (void)anonAccountCreated
+{
+    [[Geoloqi sharedInstance] createPermanentAccessToken:[self createPermanentAccessTokenCallback]];
+    
+    
+    nicknameController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [nicknameController dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -274,6 +325,34 @@
     [self.tabBarController presentModalViewController:invitationController animated:NO];
 }
 
+- (LQHTTPRequestCallback)createPermanentAccessTokenCallback 
+{
+	if (createPermanentAccessTokenCallback) return createPermanentAccessTokenCallback;
+    
+	return createPermanentAccessTokenCallback = [^(NSError *error, NSString *responseBody) 
+    {
+        NSLog(@"Request for permanent access token returned.");
+        
+        NSError *err = nil;
+        NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                       NSUTF8StringEncoding]
+                                                                                error:&err];
+        if (!res || [res objectForKey:@"error"] != nil) 
+        {
+            NSLog(@"Error deserializing response (for account/permanent_token) \"%@\": %@", responseBody, err);
+            [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+            return;
+        }
+        
+        self.permanentAccessToken = [res objectForKey:@"access_token"];
+
+        // Save the access token.
+        [[NSUserDefaults standardUserDefaults] setObject:permanentAccessToken 
+                                                  forKey:CONFIG_PERMANENT_ACCESS_TOKEN];
+        
+    } copy];
+}
+
 - (LQHTTPRequestCallback)getInvitationCallback 
 {
 	if (getInvitationCallback) return getInvitationCallback;
@@ -339,6 +418,34 @@
                                           otherButtonTitles:nil];
     [alert show];
     [alert release];
+}
+
+- (NSString *) nickname
+{
+    if (!nickname)
+    {
+        nickname = [[NSUserDefaults standardUserDefaults] stringForKey:CONFIG_NICKNAME];
+    }
+
+    return nickname;
+}
+
+- (void) setNickname:(NSString *)newNickname
+{
+    if (nickname == newNickname)
+        return;
+    
+    [nickname release];
+    nickname = [newNickname retain];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:newNickname forKey:CONFIG_NICKNAME];
+}
+
+#pragma mark -
+- (void)nicknameController:(NicknameController*)controller didReturnName:(NSString*)name
+{
+    self.nickname = name;
+    [self connectToGeoloqi];
 }
 
 @end
