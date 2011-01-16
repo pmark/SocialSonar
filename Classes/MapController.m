@@ -43,9 +43,15 @@
     f.origin.y = SM3DAR.view.frame.size.height - f.size.height - 10;
     SM3DAR.iconLogo.frame = f;
 */
+    CALayer *l = centerMenu.layer;
+    [l setMasksToBounds:YES];
+    [l setCornerRadius:7.0];
+    [l setBorderWidth:2.0];
+    [l setBorderColor:[[UIColor darkGrayColor] CGColor]];
     
     SM3DAR.hudView = hud;
     
+    SM3DAR.iconLogo.hidden = YES;
     [self.view insertSubview:SM3DAR.view atIndex:0];
     
 
@@ -105,7 +111,7 @@
                                                          altitude:location.altitude
                                                             title:@"Friend"
                                                          subtitle:nil
-                                                  markerViewClass:[SphereView class]
+                                                  markerViewClass:nil //[SphereView class]
                                                        properties:nil];
 
         [points addObject:p];
@@ -231,5 +237,21 @@
     [self presentModalViewController:c animated:YES];
     [c release];
 }
+
+#pragma mark -
+
+-(void)didShowMap
+{
+    hud.hidden = YES;
+    sideMenuBG.hidden = YES;
+}
+
+-(void)didHideMap
+{
+    hud.hidden = NO;
+    sideMenuBG.hidden = NO;
+}
+
+
 
 @end

@@ -14,6 +14,8 @@
 {
 	LQHTTPRequestCallback friendPositionsCallback;
     IBOutlet UIView *hud;
+    IBOutlet UIView *centerMenu;
+    IBOutlet UIView *sideMenuBG;
 }
 
 - (IBAction) settingsButtonTapped:(UIButton *)button;
