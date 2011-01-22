@@ -9,6 +9,7 @@
 #import "FriendsController.h"
 #import "BeaconAppDelegate.h"
 #import "CJSONDeserializer.h"
+#import "PeerLobbyController.h"
 
 @implementation FriendsController
 
@@ -17,7 +18,6 @@
 - (void) dealloc 
 {
     [friends release];
-    [addButtonItem release];
     [invitationToken release];
     [tableView release];
     
@@ -40,8 +40,6 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.rightBarButtonItem = self.addButtonItem;
-    
     [self fetchFriends];    
 }
 
@@ -165,17 +163,6 @@
 
 
 #pragma mark -
-- (UIBarButtonItem *) addButtonItem
-{
-    if (addButtonItem == NULL)
-    {
-        addButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)] autorelease];
-        addButtonItem.enabled = YES;
-    }
-
-    return addButtonItem;
-}
-
 - (void) composeEmailWithInvitation
 {
     EmailController *email = [[EmailController alloc] initWithInvitationCode:invitationToken];
@@ -225,9 +212,15 @@
 
 - (IBAction) add:(id)sender
 {
-    NSLog(@"Creating invitation...");
     
-    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];    
+    PeerLobbyController *lobby = [[PeerLobbyController alloc] init];
+    lobby.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:lobby animated:YES];
+    [lobby release];
+    
+//    NSLog(@"Creating invitation...");
+    
+//    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];    
 }
 
 - (IBAction) done:(id)sender

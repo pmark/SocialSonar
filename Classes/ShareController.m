@@ -175,6 +175,11 @@
     return text;
 }
 
+- (IBAction) done:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end
 

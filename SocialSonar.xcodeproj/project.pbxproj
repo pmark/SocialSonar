@@ -33,7 +33,7 @@
 		A61812B7129A235E00828935 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A6181297129A235E00828935 /* ISO8601DateFormatter.m */; };
 		A61812CA129A235E00828935 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A61812AD129A235E00828935 /* Reachability.m */; };
 		A61812D2129A239900828935 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812D1129A239900828935 /* SystemConfiguration.framework */; };
-		A61812D8129A23AC00828935 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812D7129A23AC00828935 /* CoreMotion.framework */; };
+		A61812D8129A23AC00828935 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812D7129A23AC00828935 /* CoreMotion.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A61812DC129A23B600828935 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812DB129A23B600828935 /* QuartzCore.framework */; };
 		A61812E0129A23BA00828935 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A61812DF129A23BA00828935 /* OpenGLES.framework */; };
 		A638039812A75FB1009057BF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A638039612A75FB1009057BF /* Default.png */; };
@@ -64,6 +64,12 @@
 		A6981F8612E304580087245B /* libGeoloqi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6981F8512E304580087245B /* libGeoloqi.a */; };
 		A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B6C12B4B74E00C28BF8 /* SphereView.m */; };
 		A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */; };
+		A6E76B4712EA87F4007C5B5B /* PeerSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E76B4612EA87F4007C5B5B /* PeerSessionManager.m */; };
+		A6E76B4912EA8828007C5B5B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E76B4812EA8828007C5B5B /* GameKit.framework */; };
+		A6E76B6612EA8BAD007C5B5B /* PeerLobbyController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E76B6512EA8BAD007C5B5B /* PeerLobbyController.m */; };
+		A6E76B7F12EA8DF0007C5B5B /* PeerLobbyController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6E76B7E12EA8DF0007C5B5B /* PeerLobbyController.xib */; };
+		A6E76BC212EA92FB007C5B5B /* FriendManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6E76BC012EA92FB007C5B5B /* FriendManagerController.m */; };
+		A6E76BC312EA92FB007C5B5B /* FriendManagerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6E76BC112EA92FB007C5B5B /* FriendManagerController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -159,6 +165,15 @@
 		A6985B7B12B4B89A00C28BF8 /* TexturedGeometryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedGeometryView.m; sourceTree = "<group>"; };
 		A6985B8112B4B8BE00C28BF8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A6C4834E12B42B02006E6F4F /* LQConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LQConstants.h; sourceTree = "<group>"; };
+		A6E76B4512EA87F4007C5B5B /* PeerSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerSessionManager.h; sourceTree = "<group>"; };
+		A6E76B4612EA87F4007C5B5B /* PeerSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerSessionManager.m; sourceTree = "<group>"; };
+		A6E76B4812EA8828007C5B5B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		A6E76B6412EA8BAD007C5B5B /* PeerLobbyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerLobbyController.h; sourceTree = "<group>"; };
+		A6E76B6512EA8BAD007C5B5B /* PeerLobbyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerLobbyController.m; sourceTree = "<group>"; };
+		A6E76B7E12EA8DF0007C5B5B /* PeerLobbyController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PeerLobbyController.xib; sourceTree = "<group>"; };
+		A6E76BBF12EA92FB007C5B5B /* FriendManagerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendManagerController.h; sourceTree = "<group>"; };
+		A6E76BC012EA92FB007C5B5B /* FriendManagerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendManagerController.m; sourceTree = "<group>"; };
+		A6E76BC112EA92FB007C5B5B /* FriendManagerController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendManagerController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +194,7 @@
 				A64541A912A2282C0014F23C /* MessageUI.framework in Frameworks */,
 				A6981E5912E2DCF30087245B /* lib3DAR.a in Frameworks */,
 				A6981F8612E304580087245B /* libGeoloqi.a in Frameworks */,
+				A6E76B4912EA8828007C5B5B /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,12 +226,20 @@
 				A6109538129A342000A92CA6 /* FriendsController.h */,
 				A6109539129A342000A92CA6 /* FriendsController.m */,
 				A610953A129A342000A92CA6 /* FriendsController.xib */,
+				A6E76B6412EA8BAD007C5B5B /* PeerLobbyController.h */,
+				A6E76B6512EA8BAD007C5B5B /* PeerLobbyController.m */,
+				A6E76B7E12EA8DF0007C5B5B /* PeerLobbyController.xib */,
+				A6E76B4512EA87F4007C5B5B /* PeerSessionManager.h */,
+				A6E76B4612EA87F4007C5B5B /* PeerSessionManager.m */,
 				A610955A129A374E00A92CA6 /* ShareController.h */,
 				A610955B129A374E00A92CA6 /* ShareController.m */,
 				A610955C129A374E00A92CA6 /* ShareController.xib */,
 				A6981EBA12E2E2AD0087245B /* NicknameController.h */,
 				A6981EBB12E2E2AD0087245B /* NicknameController.m */,
 				A6981EBC12E2E2AD0087245B /* NicknameController.xib */,
+				A6E76BBF12EA92FB007C5B5B /* FriendManagerController.h */,
+				A6E76BC012EA92FB007C5B5B /* FriendManagerController.m */,
+				A6E76BC112EA92FB007C5B5B /* FriendManagerController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -237,6 +261,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				A6E76B4812EA8828007C5B5B /* GameKit.framework */,
 			);
 			name = Beacon;
 			sourceTree = "<group>";
@@ -459,6 +484,8 @@
 				A638039912A75FB1009057BF /* Icon.png in Resources */,
 				A67394F312C2F3460075AA68 /* MapController.xib in Resources */,
 				A6981EBE12E2E2AD0087245B /* NicknameController.xib in Resources */,
+				A6E76B7F12EA8DF0007C5B5B /* PeerLobbyController.xib in Resources */,
+				A6E76BC312EA92FB007C5B5B /* FriendManagerController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +526,9 @@
 				A6985B6D12B4B74E00C28BF8 /* SphereView.m in Sources */,
 				A6985B7C12B4B89A00C28BF8 /* TexturedGeometryView.m in Sources */,
 				A6981EBD12E2E2AD0087245B /* NicknameController.m in Sources */,
+				A6E76B4712EA87F4007C5B5B /* PeerSessionManager.m in Sources */,
+				A6E76B6612EA8BAD007C5B5B /* PeerLobbyController.m in Sources */,
+				A6E76BC212EA92FB007C5B5B /* FriendManagerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

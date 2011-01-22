@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ShareController : UITableViewController 
+@interface ShareController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
 
 }
+
+- (IBAction) done:(id)sender;
 
 @end

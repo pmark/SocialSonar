@@ -14,14 +14,12 @@
 
 @interface FriendsController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    UIBarButtonItem *addButtonItem;
     NSMutableArray *friends;
 	LQHTTPRequestCallback invitationCreatedCallback;
     NSString *invitationToken;
     IBOutlet UITableView *tableView;
 }
 
-@property (readonly, nonatomic, retain) UIBarButtonItem *addButtonItem;
 @property (nonatomic, retain) NSMutableArray *friends;
 
 - (IBAction) add:(id)sender;
