@@ -214,18 +214,12 @@
 {
     
     PeerLobbyController *lobby = [[PeerLobbyController alloc] init];
-    lobby.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:lobby animated:YES];
+    [self.navigationController pushViewController:lobby animated:YES];
     [lobby release];
     
 //    NSLog(@"Creating invitation...");
     
 //    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];    
-}
-
-- (IBAction) done:(id)sender
-{
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) createFriend

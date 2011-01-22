@@ -16,6 +16,9 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"Add a Friend";
+    
     manager = [[PeerSessionManager alloc] init]; 
     manager.lobbyDelegate = self;
     [manager setupSession];
@@ -38,10 +41,6 @@
 // Called when user selects a peer from the list or accepts a call invitation.
 - (void) invitePeer:(NSString *)peerID
 {
-//	RocketController *gameScreen = [[RocketController alloc]
-//                                        initWithNibName:@"RocketController"
-//                                        bundle:[NSBundle mainBundle]
-//                                        manager: manager];
 //	[self.navigationController pushViewController:gameScreen animated:YES];
 //    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];

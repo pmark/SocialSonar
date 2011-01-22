@@ -23,7 +23,6 @@
 @property (nonatomic, retain) NSMutableArray *friends;
 
 - (IBAction) add:(id)sender;
-- (IBAction) done:(id)sender;
 
 
 @end

@@ -10,7 +10,11 @@
 
 
 @interface FriendManagerController : UIViewController {
-
+    UINavigationController *navigationController;
 }
+
+@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+
+- (IBAction) done:(id)sender;
 
 @end

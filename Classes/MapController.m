@@ -15,6 +15,7 @@
 #import "ShareController.h"
 #import "SingleFriendController.h"
 #import "FriendsController.h"
+#import "FriendManagerController.h"
 
 @implementation MapController
 
@@ -226,7 +227,8 @@
 
 - (IBAction) friendsButtonTapped:(UIButton *)button
 {
-    SingleFriendController *c = [[SingleFriendController alloc] init];
+//    SingleFriendController *c = [[SingleFriendController alloc] init];
+    FriendManagerController *c = [[FriendManagerController alloc] init];
     [self presentModalViewController:c animated:YES];
     [c release];
 }
