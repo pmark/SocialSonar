@@ -7,7 +7,7 @@
 //
 
 #import "Friend.h"
-#import "BeaconAppDelegate.h"
+#import "SoSoAppDelegate.h"
 #import "CJSONDeserializer.h"
 
 @implementation Friend

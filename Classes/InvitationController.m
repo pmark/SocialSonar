@@ -8,7 +8,7 @@
 
 #import "InvitationController.h"
 #import "CJSONDeserializer.h"
-#import "BeaconAppDelegate.h"
+#import "SoSoAppDelegate.h"
 #import "EmailController.h"
 #import "Friend.h"
 

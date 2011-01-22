@@ -7,7 +7,7 @@
 //
 
 #import "FriendsController.h"
-#import "BeaconAppDelegate.h"
+#import "SoSoAppDelegate.h"
 #import "CJSONDeserializer.h"
 #import "PeerLobbyController.h"
 
@@ -199,7 +199,7 @@
         
         if ([invitationToken length] == 0)
         {
-            [BeaconAppDelegate alertWithTitle:@"Sorry" message:@"Please try again later."];
+            [SoSoAppDelegate alertWithTitle:@"Sorry" message:@"Please try again later."];
         }
         else
         {

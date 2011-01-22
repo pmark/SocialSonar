@@ -1,17 +1,17 @@
 //
-//  BeaconAppDelegate.m
+//  SoSoAppDelegate.m
 //  Beacon
 //
 //  Created by P. Mark Anderson on 11/21/10.
 //  Copyright 2010 Bordertown Labs, LLC. All rights reserved.
 //
 
-#import "BeaconAppDelegate.h"
+#import "SoSoAppDelegate.h"
 #import "InvitationController.h"
 #import "CJSONDeserializer.h"
 #import "LQConstants.h"
 
-@implementation BeaconAppDelegate
+@implementation SoSoAppDelegate
 
 @synthesize window;
 @synthesize tabBarController;

@@ -7,7 +7,7 @@
 //
 
 #import "EmailController.h"
-#import "BeaconAppDelegate.h"
+#import "SoSoAppDelegate.h"
 #import "Geoloqi.h"
 
 @implementation EmailController
@@ -43,7 +43,7 @@
 {
     if (![[self class] canSendMail])
     {
-        [BeaconAppDelegate alertWithTitle:@"Mail setup required" message:@"Please add a mail account to this device."];
+        [SoSoAppDelegate alertWithTitle:@"Mail setup required" message:@"Please add a mail account to this device."];
         return nil;
     }
         

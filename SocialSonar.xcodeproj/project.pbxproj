@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* BeaconAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* BeaconAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* SoSoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* SoSoAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -74,8 +74,8 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* BeaconAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* BeaconAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconAppDelegate.m; sourceTree = "<group>"; };
+		1D3623240D0F684500981E51 /* SoSoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoSoAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* SoSoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoSoAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Social Sonar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Sonar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28216C950DB411BC00E5133A /* MapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapController.h; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				A6985B8112B4B8BE00C28BF8 /* Constants.h */,
-				1D3623240D0F684500981E51 /* BeaconAppDelegate.h */,
-				1D3623250D0F684500981E51 /* BeaconAppDelegate.m */,
+				1D3623240D0F684500981E51 /* SoSoAppDelegate.h */,
+				1D3623250D0F684500981E51 /* SoSoAppDelegate.m */,
 				A64541A112A227590014F23C /* EmailController.h */,
 				A64541A212A227590014F23C /* EmailController.m */,
 				A645409C12A216770014F23C /* Friend.h */,
@@ -497,7 +497,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
-				1D3623260D0F684500981E51 /* BeaconAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* SoSoAppDelegate.m in Sources */,
 				28216C970DB411BC00E5133A /* MapController.m in Sources */,
 				A61812B2129A235E00828935 /* BSJSONEncoder.m in Sources */,
 				A61812B3129A235E00828935 /* NSArray+BSJSONAdditions.m in Sources */,

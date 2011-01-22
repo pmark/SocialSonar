@@ -1,5 +1,5 @@
 //
-//  BeaconAppDelegate.h
+//  SoSoAppDelegate.h
 //  Beacon
 //
 //  Created by P. Mark Anderson on 11/21/10.
@@ -14,7 +14,7 @@
 #import "MapController.h"
 #import "NicknameController.h"
 
-@interface BeaconAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NicknameDelegate> 
+@interface SoSoAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NicknameDelegate> 
 {
     UIWindow *window;
     MapController *mapController;
@@ -53,5 +53,5 @@
 
 @end
 
-#define APP_DELEGATE ((BeaconAppDelegate*)[UIApplication sharedApplication].delegate)
+#define APP_DELEGATE ((SoSoAppDelegate*)[UIApplication sharedApplication].delegate)
 #define MOCONTEXT APP_DELEGATE.managedObjectContext
