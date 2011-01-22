@@ -7,6 +7,11 @@
 #import "PeerSessionManager.h"
 #import "Geoloqi.h"
 
+typedef enum {
+    InvitationTypeEmail,
+    InvitationTypeWireless
+} InvitationType;
+
 @interface PeerLobbyController : UIViewController <UITableViewDelegate, UITableViewDataSource, SessionManagerLobbyDelegate, UIAlertViewDelegate> {
 	NSArray	*peerList;
     UIAlertView *alertView;
@@ -16,6 +21,9 @@
 	LQHTTPRequestCallback invitationCreatedCallback;
     IBOutlet UIActivityIndicatorView *spinner;
     IBOutlet UIView *blocker;
+    IBOutlet UIView *blockerContainer;
+    IBOutlet UILabel *invitationStatusLabel;
+    InvitationType invitationType;
 }
 
 @property (nonatomic, readonly) PeerSessionManager *manager; 
@@ -24,6 +32,6 @@
 - (void) peerListDidChange:(PeerSessionManager *)session;
 - (void) didReceiveInvitation:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
 - (void) invitationDidFail:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
-- (void) setBlockerHidden:(BOOL)hide;
+- (void) setBlockerHidden:(BOOL)hide animated:(BOOL)animated;
 
 @end

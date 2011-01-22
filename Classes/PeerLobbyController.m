@@ -35,7 +35,25 @@
 	[peerList release];
 	[alertView release];
     self.peerTableView = nil;
+    
+    [spinner release];
+    spinner = nil;    
+    [blocker release];
+    blocker = nil;
+    [blockerContainer release];
+    blockerContainer = nil;
+    [invitationStatusLabel release];
+    invitationStatusLabel = nil;    
+    
+    
     [super dealloc];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setBlockerHidden:YES animated:NO];
 }
 
 #pragma mark -
@@ -51,6 +69,11 @@
         
         [email release];    
     }    
+}
+
+- (void) sendInvitationToPeer
+{
+    invitationStatusLabel.text = @"Sending invitation to peer.";
 }
 
 - (LQHTTPRequestCallback)invitationCreatedCallback {
@@ -81,24 +104,64 @@
         }
         else
         {
-            [self composeEmailWithInvitation];
+            // Successful invitation generation.
+            
+            switch (invitationType) {
+                case InvitationTypeEmail:
+                    [self composeEmailWithInvitation];
+                    break;
+                    
+                case InvitationTypeWireless:
+                    [self sendInvitationToPeer];
+                    break;
+                    
+                default:
+                    break;
+            }
         }
         
-        [self setBlockerHidden:YES];
-                                            
         
     } copy];
 }
 
-- (void) setBlockerHidden:(BOOL)hide
+- (void) blockerAnimationDidStop
 {
+    if (blocker.alpha == 0.0)
+    {
+        blockerContainer.hidden = YES;
+    }
+}
+
+- (void) setBlockerHidden:(BOOL)hide animated:(BOOL)animated
+{
+    if (hide == blockerContainer.hidden)
+        return;
+    
     CGFloat alpha = (hide ? 0.0 : 0.7);
+
+    if (!hide)
+    {
+        // Show the blockerContainer right away,
+        // but delay hiding it until after the animation ends.
+        
+        blockerContainer.hidden = NO;
+    }
     
-    [UIView beginAnimations:nil context:nil];
-    
-    blocker.alpha = alpha;
-    
-    [UIView commitAnimations];
+    if (!animated)
+    {
+        blockerContainer.hidden = hide;
+        blocker.alpha = alpha;
+    }
+    else
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.33];
+        [UIView setAnimationDidStopSelector:@selector(blockerAnimationDidStop)];
+        
+        blocker.alpha = alpha;
+        
+        [UIView commitAnimations];
+    }        
     
 #if 0 
     [UIView beginAnimations:nil context:nil];
@@ -131,8 +194,10 @@
 
 - (void) createInvitation
 {
-    [self setBlockerHidden:NO];
+    [self setBlockerHidden:NO animated:YES];
     
+    invitationStatusLabel.text = @"Creating invitation.";
+
     [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];
 }
 
@@ -142,6 +207,8 @@
 // Called when user selects a peer from the list or accepts a call invitation.
 - (void) invitePeer:(NSString *)peerID
 {
+    invitationType = InvitationTypeWireless;
+
     [self createInvitation];        
 
     //	[self.navigationController pushViewController:gameScreen animated:YES];
@@ -276,6 +343,8 @@
 // The user selected a peer from the list to connect to.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 0)
     {
         // Wireless
@@ -293,6 +362,8 @@
     else
     {
         // Email
+
+        invitationType = InvitationTypeEmail;
 
         [self createInvitation];        
     }

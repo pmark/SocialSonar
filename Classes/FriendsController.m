@@ -207,7 +207,10 @@
         }
         else
         {
+            // Successful invitation generation.
+
             [self composeEmailWithInvitation];
+            
         }
         
 		
