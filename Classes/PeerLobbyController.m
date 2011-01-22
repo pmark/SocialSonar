@@ -84,12 +84,55 @@
             [self composeEmailWithInvitation];
         }
         
+        [self setBlockerHidden:YES];
+                                            
         
     } copy];
 }
 
+- (void) setBlockerHidden:(BOOL)hide
+{
+    CGFloat alpha = (hide ? 0.0 : 0.7);
+    
+    [UIView beginAnimations:nil context:nil];
+    
+    blocker.alpha = alpha;
+    
+    [UIView commitAnimations];
+    
+#if 0 
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.75];
+    [UIView setAnimationRepeatAutoreverses:YES];
+    [UIView setAnimationRepeatCount:INFINITY];
+    
+    spinner.transform = CGAffineTransformMakeRotation(180);
+    
+    [UIView commitAnimations];
+#else    
+    if (hide)
+    {
+        [spinner.layer removeAllAnimations];
+    }
+    else
+    {
+        CABasicAnimation *fullRotation;
+        fullRotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+        fullRotation.fromValue = [NSNumber numberWithFloat:0];
+        fullRotation.toValue = [NSNumber numberWithFloat:(-(360*M_PI)/180)];
+        fullRotation.duration = 1.66;
+        fullRotation.repeatCount = INFINITY;
+        
+        [spinner.layer addAnimation:fullRotation forKey:@"360"];
+    }
+#endif
+    
+}
+
 - (void) createInvitation
 {
+    [self setBlockerHidden:NO];
+    
     [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];
 }
 

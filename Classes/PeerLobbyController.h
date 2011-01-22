@@ -14,6 +14,8 @@
     IBOutlet UITableView *peerTableView;
     NSString *invitationToken;
 	LQHTTPRequestCallback invitationCreatedCallback;
+    IBOutlet UIActivityIndicatorView *spinner;
+    IBOutlet UIView *blocker;
 }
 
 @property (nonatomic, readonly) PeerSessionManager *manager; 
@@ -22,5 +24,6 @@
 - (void) peerListDidChange:(PeerSessionManager *)session;
 - (void) didReceiveInvitation:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
 - (void) invitationDidFail:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
+- (void) setBlockerHidden:(BOOL)hide;
 
 @end

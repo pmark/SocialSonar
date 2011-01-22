@@ -43,9 +43,10 @@
     
     
     NSString *storedAccessToken = [[NSUserDefaults standardUserDefaults] stringForKey:CONFIG_PERMANENT_ACCESS_TOKEN];
+    NSLog(@"\n\n\nStored access token: %@\n\n\n", storedAccessToken);
     
-    NSLog(@"\n\n\nWARNING: Using hard coded access token\n\n\n");
-    storedAccessToken = @"4a6-6525b138045d3502c1db910305a320151ee9b6d5"; 
+    //NSLog(@"\n\n\nWARNING: Using hard coded access token instead of: %@\n\n\n", storedAccessToken);
+    //storedAccessToken = @"4a6-6525b138045d3502c1db910305a320151ee9b6d5"; 
     
     if ([storedAccessToken length] == 0)
     {
