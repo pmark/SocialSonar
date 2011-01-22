@@ -77,6 +77,8 @@
 
     NSLog(@"application:didFinishLaunchingWithOptions:");
     
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
 	NSManagedObjectContext *context = [self managedObjectContext];
 
 	if (!context) 

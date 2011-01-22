@@ -3,9 +3,11 @@
  a peer.
  */
 
-#import "PeerLobbyController.h"
-//#import "RocketController.h"
 #import <GameKit/GameKit.h> 
+#import "PeerLobbyController.h"
+#import "EmailController.h"
+#import "CJSONDeserializer.h"
+#import "SoSoAppDelegate.h"
 
 @implementation PeerLobbyController
 @synthesize manager;
@@ -37,11 +39,69 @@
 }
 
 #pragma mark -
+#pragma mark Geoloqi
+
+- (void) composeEmailWithInvitation
+{
+    EmailController *email = [[EmailController alloc] initWithInvitationCode:invitationToken];
+    
+    if (email)
+    {
+        [self presentModalViewController:email animated:YES];
+        
+        [email release];    
+    }    
+}
+
+- (LQHTTPRequestCallback)invitationCreatedCallback {
+	if (invitationCreatedCallback) return invitationCreatedCallback;
+    
+	return invitationCreatedCallback = [^(NSError *error, NSString *responseBody) 
+                                        {
+        NSLog(@"Invitation created.");
+        
+        NSError *err = nil;
+        NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                       NSUTF8StringEncoding]
+                                                                                error:&err];
+        if (!res || [res objectForKey:@"error"] != nil) 
+        {
+            NSLog(@"Error deserializing response (for invitation/create) \"%@\": %@", responseBody, err);
+            [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+            return;
+        }
+        
+        // Successful invitation creation.
+        
+        invitationToken = [[res objectForKey:@"invitation_token"] retain];        
+        
+        if ([invitationToken length] == 0)
+        {
+            [SoSoAppDelegate alertWithTitle:@"Sorry" message:@"Please try again later."];
+        }
+        else
+        {
+            [self composeEmailWithInvitation];
+        }
+        
+        
+    } copy];
+}
+
+- (void) createInvitation
+{
+    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];
+}
+
+
+#pragma mark -
 #pragma mark Opening Method
 // Called when user selects a peer from the list or accepts a call invitation.
 - (void) invitePeer:(NSString *)peerID
 {
-//	[self.navigationController pushViewController:gameScreen animated:YES];
+    [self createInvitation];        
+
+    //	[self.navigationController pushViewController:gameScreen animated:YES];
 //    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
 //	[gameScreen release];
@@ -49,9 +109,82 @@
 
 #pragma mark -
 #pragma mark Table Data Source Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *t = @"";
+    
+    switch (section) {
+        case 0:
+            t = @"Via Bluetooth / WiFi";
+            break;
+        case 1:
+            t = @"Via Email";
+            break;
+        default:
+            break;
+    }
+    
+    return t;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString *t = @"";
+    
+    switch (section) {
+        case 0:
+            if ([peerList count] == 0)
+            {
+                t = @"Tell your friends to run their Social Sonars with Bluetooth or WiFi on.";
+            }
+            else
+            {
+                t = @"Please select a friend.";
+            }
+            
+            break;
+        case 1:
+            t = @"The email will contain instructions.";
+            break;
+        default:
+            break;
+    }
+    
+    return t;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [peerList count];
+    NSInteger rowCount = 0;
+    
+    switch (section) {
+        case 0:
+            // Via Wireless (Bluetooth/WiFi).
+            rowCount = [peerList count];
+            
+            if (rowCount == 0)
+            {
+                // Display a "scanning..." message
+                rowCount = 1;
+            }
+            
+            break;
+            
+        case 1:
+            // Via Email.
+            rowCount = 1;
+            break;
+            
+        default:
+            break;
+    }
+
+	return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,13 +193,38 @@
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TopLevelCellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                        reuseIdentifier:TopLevelCellIdentifier] autorelease];
 	}
 
-	NSUInteger row = [indexPath row];
-	
-	cell.textLabel.text = [manager displayNameForPeer:[peerList objectAtIndex:row]]; 
+    if (indexPath.section == 0)
+    {
+        // Wireless connection
+        
+        if ([peerList count] == 0)
+        {
+            // Scanning wireless space.
+
+            cell.textLabel.text = @"Scanning for friends...";
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            // Show nearby friends.
+            
+            cell.textLabel.text = [manager displayNameForPeer:[peerList objectAtIndex:indexPath.row]]; 
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        
+    }
+    else
+    {
+        // Email
+        
+        cell.textLabel.text = @"Send Invitation";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
 	return cell;
 }
 
@@ -75,8 +233,26 @@
 // The user selected a peer from the list to connect to.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[manager connect:[peerList objectAtIndex:[indexPath row]]]; 
-	[self invitePeer:[peerList objectAtIndex:[indexPath row]]]; 
+    if (indexPath.section == 0)
+    {
+        // Wireless
+            
+        if ([peerList count] == 0)
+        {
+            return;
+        }
+            
+        NSString *peerID = [peerList objectAtIndex:[indexPath row]];
+        [manager connect:peerID]; 
+        [self invitePeer:peerID]; 
+        
+    }
+    else
+    {
+        // Email
+
+        [self createInvitation];        
+    }
 }
 
 #pragma mark -

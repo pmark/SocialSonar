@@ -116,9 +116,13 @@
     switch (indexPath.section)
     {
         case 0:
-            friend = [friends objectAtIndex:indexPath.row];
-            cell.textLabel.text = [friend serverURL];
-            cell.detailTextLabel.text = [friend accessToken];
+            if (friends && [friends count] > 0)
+            {
+                friend = [friends objectAtIndex:indexPath.row];
+                cell.textLabel.text = [friend serverURL];
+                cell.detailTextLabel.text = [friend accessToken];
+            }
+            
             break;
         default:
             cell.textLabel.text = @"???";

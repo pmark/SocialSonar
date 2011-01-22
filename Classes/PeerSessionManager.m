@@ -229,7 +229,7 @@
             [lobbyDelegate peerListDidChange:self]; 
 			break;
 		case GKPeerStateConnected:
-            // Connection was accepted, set up the voice chat.
+            // Connection was accepted.
             currentConfPeerID = [peerID retain];
             gkSession.available = NO;
 

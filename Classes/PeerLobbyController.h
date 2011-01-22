@@ -5,12 +5,15 @@
 
 #import <UIKit/UIKit.h>
 #import "PeerSessionManager.h"
+#import "Geoloqi.h"
 
 @interface PeerLobbyController : UIViewController <UITableViewDelegate, UITableViewDataSource, SessionManagerLobbyDelegate, UIAlertViewDelegate> {
 	NSArray	*peerList;
     UIAlertView *alertView;
 	PeerSessionManager *manager;
     IBOutlet UITableView *peerTableView;
+    NSString *invitationToken;
+	LQHTTPRequestCallback invitationCreatedCallback;
 }
 
 @property (nonatomic, readonly) PeerSessionManager *manager; 
