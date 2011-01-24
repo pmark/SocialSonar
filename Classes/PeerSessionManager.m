@@ -276,15 +276,17 @@
 {
     NSMutableDictionary *prunedPeers = [NSMutableDictionary dictionary];
 
-    NSString *udid = [[UIDevice currentDevice] uniqueIdentifier];
+    NSString *udid = [[[UIDevice currentDevice] uniqueIdentifier] substringToIndex:20];
 
     for (NSString *peerID in peerList)
     {
         NSString *displayName = [self displayNameForPeer:peerID];
         
-//        NSLog(@"Checking if %@ has UDID %@", displayName, udid);
+        //NSLog(@"Checking if %@ has UDID %@", displayName, udid);
 
-        if ([displayName length] == 0 || [displayName hasSuffix:udid])
+        BOOL containsMyUDID = ([displayName rangeOfString:udid].location != NSNotFound);
+        
+        if ([displayName length] == 0 || containsMyUDID)
             continue;
         
         [prunedPeers setObject:peerID forKey:displayName];

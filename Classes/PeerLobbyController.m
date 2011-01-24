@@ -147,7 +147,20 @@ typedef struct {
         return;
     }
     
-    invitationStatusLabel.text = @"Sending invitation";
+    switch (packetType) {
+        case PacketTypeStart:
+            invitationStatusLabel.text = @"Sending invitation";
+            break;
+        case PacketTypeReciprocalInvitation:
+            invitationStatusLabel.text = @"Sending reciprocal invitation";
+            break;
+        case PacketTypeFinishInvitation:
+            invitationStatusLabel.text = @"Wrapping up";
+            break;
+        default:
+            break;
+    }
+    
     
     NSLog(@"Preparing packet with invitationToken: %@", invitationToken);
         
@@ -625,7 +638,11 @@ typedef struct {
 - (void) finishFriending
 {
     NSLog(@"Finishing friending process");
-    [Friend getOpenAccessTokens];
+    invitationStatusLabel.text = @"Wrapping up";
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+//    [Friend getOpenAccessTokens];
 }
 
 - (void) tellPeerToFinishFriending
@@ -667,25 +684,33 @@ typedef struct {
 // The GKSession got a packet and sent it to the game, so parse it and update state.
 - (void) session:(PeerSessionManager *)session didReceivePacket:(NSData*)data ofType:(PacketType)packetType
 {
+    NSLog(@"didReceivePacket of type %i", packetType);
+    
+    NSDictionary *packet;
+    
     if ([data length] > 0) 
     {
-        NSDictionary *packet = [self plistFromData:data];
+        packet = [self plistFromData:data];
+    }
+    else
+    {
+        packet = [NSDictionary dictionary];
+    }
         
-        switch (packetType) 
-        {
-            case PacketTypeStart:
-            case PacketTypeReciprocalInvitation:
+    switch (packetType) 
+    {
+        case PacketTypeStart:
+        case PacketTypeReciprocalInvitation:
 
-                [self receiveInvitationPacket:packet];
-                break;
+            [self receiveInvitationPacket:packet];
+            break;
 
-            case PacketTypeFinishInvitation:
-                [self finishFriending];
-                break;
-                
-            default:
-                break;
-        }
+        case PacketTypeFinishInvitation:
+            [self finishFriending];
+            break;
+            
+        default:
+            break;
     }
 }
 

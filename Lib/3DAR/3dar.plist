@@ -16,5 +16,7 @@
 	<false/>
 	<key>3darDisableGyro</key>
 	<false/>
+	<key>3darDisableHeadingCalibrationAlert</key>
+	<true/>
 </dict>
 </plist>

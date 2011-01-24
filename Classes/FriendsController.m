@@ -39,17 +39,17 @@
 - (void) viewDidLoad 
 {
     [super viewDidLoad];
-
-    [self fetchFriends];    
 }
 
 - (void) viewWillAppear:(BOOL)inAnimated
 {
     [super viewWillAppear:inAnimated];
     
+    [self fetchFriends];    
+    
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:inAnimated];
 
-    [tableView reloadData];
+//    [tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)inAnimated

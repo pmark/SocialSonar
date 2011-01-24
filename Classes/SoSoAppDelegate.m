@@ -497,7 +497,11 @@
 	if (![MOCONTEXT save:&error]) 
     {
 		NSLog(@"ERROR creating friend: %@", [error localizedDescription]);        
-	}    
+	}  
+    else
+    {
+        NSLog(@"\n\nFriend saved\n\n");
+    }
 }
 
 @end

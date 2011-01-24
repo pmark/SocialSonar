@@ -16,6 +16,7 @@
 #import "SingleFriendController.h"
 #import "FriendsController.h"
 #import "FriendManagerController.h"
+#import "LQDataViewController.h"
 
 @implementation MapController
 
@@ -235,7 +236,11 @@
 
 - (IBAction) settingsButtonTapped:(UIButton *)button
 {
-    ShareController *c = [[ShareController alloc] init];
+//    ShareController *c = [[ShareController alloc] init];
+//    [self presentModalViewController:c animated:YES];
+//    [c release];
+    
+    LQDataViewController *c = [[LQDataViewController alloc] init];
     [self presentModalViewController:c animated:YES];
     [c release];
 }
