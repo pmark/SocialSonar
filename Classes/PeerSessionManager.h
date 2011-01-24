@@ -4,6 +4,7 @@
 
 #import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h> 
+#import "Constants.h"
 
 typedef enum {
     ConnectionStateDisconnected,
@@ -27,14 +28,16 @@ typedef enum {
 	NSString *currentConfPeerID;
 	NSMutableArray *peerList;
 	id lobbyDelegate;
-	id gameDelegate;
+	id handshakeDelegate;
     ConnectionState sessionState;
+    BOOL initiator;
 }
 
 @property (nonatomic, readonly) NSString *currentConfPeerID;
 @property (nonatomic, readonly) NSMutableArray *peerList;
 @property (nonatomic, assign) id lobbyDelegate;
-@property (nonatomic, assign) id gameDelegate;
+@property (nonatomic, assign) id handshakeDelegate;
+@property (nonatomic, assign) ConnectionState sessionState;
 
 - (void) setupSession;
 - (void) connect:(NSString *)peerID;
@@ -65,7 +68,7 @@ typedef enum {
 
 @end
 
-@protocol PeerSessionManagerGameDelegate
+@protocol PeerSessionManagerHandshakeDelegate
 
 - (void) session:(PeerSessionManager *)session didConnectAsInitiator:(BOOL)shouldStart;
 - (void) willDisconnect:(PeerSessionManager *)session;

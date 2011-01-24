@@ -18,20 +18,26 @@ typedef enum {
 	PeerSessionManager *manager;
     IBOutlet UITableView *peerTableView;
     NSString *invitationToken;
+    NSString *receivedInvitationToken;
 	LQHTTPRequestCallback invitationCreatedCallback;
     IBOutlet UIActivityIndicatorView *spinner;
     IBOutlet UIView *blocker;
     IBOutlet UIView *blockerContainer;
     IBOutlet UILabel *invitationStatusLabel;
     InvitationType invitationType;
+    NSString *invitedPeer;
 }
 
 @property (nonatomic, readonly) PeerSessionManager *manager; 
 @property (nonatomic, assign) IBOutlet UITableView *peerTableView;
+@property (nonatomic, retain) NSString *invitedPeer;
 
 - (void) peerListDidChange:(PeerSessionManager *)session;
 - (void) didReceiveInvitation:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
 - (void) invitationDidFail:(PeerSessionManager *)session fromPeer:(NSString *)participantID;
 - (void) setBlockerHidden:(BOOL)hide animated:(BOOL)animated;
+- (void) presentServerErrorAlert;
+
+- (void) sendPacket:(PacketType)packetType;
 
 @end

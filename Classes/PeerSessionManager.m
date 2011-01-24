@@ -4,14 +4,16 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 #import "PeerSessionManager.h"
+#import "SoSoAppDelegate.h"
 
-#define SESSION_ID @"gkrocket"
+#define SESSION_ID @"social_sonar"
 
 @implementation PeerSessionManager
 @synthesize currentConfPeerID;
 @synthesize peerList;
 @synthesize lobbyDelegate;
-@synthesize gameDelegate;
+@synthesize handshakeDelegate;
+@synthesize sessionState;
 
 #pragma mark -
 #pragma mark NSObject Methods
@@ -19,8 +21,10 @@
 - (id)init 
 {
 	if (self = [super init]) {
+        
         // Peers need to have the same sessionID set on their GKSession to see each other.
 		sessionID = SESSION_ID; 
+        
 		peerList = [[NSMutableArray alloc] init];
         
         // Set up starting/stopping session on application hiding/terminating
@@ -48,6 +52,7 @@
 	gkSession = nil;
 	sessionID = nil; 
 	[peerList release]; 
+    
     [super dealloc];
 }
 
@@ -57,8 +62,16 @@
 // Creates a GKSession and advertises availability to Peers
 - (void) setupSession
 {
+    //NSTimeInterval tstamp = [NSDate timeIntervalSinceReferenceDate];
+    NSString *udid = [[UIDevice currentDevice] uniqueIdentifier];
+
+    NSString *displayName = [NSString stringWithFormat:@"%@%@%@", 
+                             APP_DELEGATE.nickname, PEER_NAME_DIVIDER, udid];
+                             
 	// GKSession will default to using the device name as the display name
-	gkSession = [[GKSession alloc] initWithSessionID:sessionID displayName:nil sessionMode:GKSessionModePeer];
+	gkSession = [[GKSession alloc] initWithSessionID:sessionID 
+                                         displayName:displayName
+                                         sessionMode:GKSessionModePeer];
 	gkSession.delegate = self; 
 	[gkSession setDataReceiveHandler:self withContext:nil]; 
 	gkSession.available = YES;
@@ -69,63 +82,92 @@
 // Initiates a GKSession connection to a selected peer.
 -(void) connect:(NSString *) peerID
 {
+    initiator = YES;
 	[gkSession connectToPeer:peerID withTimeout:10.0];
     currentConfPeerID = [peerID retain];
     sessionState = ConnectionStateConnecting;
 }
 
-// Called from GameLobbyController if the user accepts the invitation alertView
+// Called from PeerLobbyController if the user accepts the invitation alertView
 -(BOOL) didAcceptInvitation
 {
     NSError *error = nil;
-    if (![gkSession acceptConnectionFromPeer:currentConfPeerID error:&error]) {
-        NSLog(@"%@",[error localizedDescription]);
+    
+    if (![gkSession acceptConnectionFromPeer:currentConfPeerID error:&error]) 
+    {
+        NSLog(@"ERROR in didAcceptInvitation: %@", [error localizedDescription]);
+    }
+    else
+    {
+        NSLog(@"Invitation accepted!");        
     }
     
-    return (gameDelegate == nil);
+    return (handshakeDelegate == nil);
 }
 
-// Called from GameLobbyController if the user declines the invitation alertView
+// Called from PeerLobbyController if the user declines the invitation alertView
 -(void) didDeclineInvitation
 {
+    NSLog(@"Invitation declined.");
+
     // Deny the peer.
-    if (sessionState != ConnectionStateDisconnected) {
+    if (sessionState != ConnectionStateDisconnected) 
+    {
+        NSLog(@"Denying peer connection from '%@'", currentConfPeerID);
+
         [gkSession denyConnectionFromPeer:currentConfPeerID];
 		[currentConfPeerID release];
         currentConfPeerID = nil;
+
         sessionState = ConnectionStateDisconnected;
     }
+    
     // Go back to the lobby if the game screen is open.
-    [gameDelegate willDisconnect:self];
+    [handshakeDelegate willDisconnect:self];
 }
 
 -(BOOL) comparePeerID:(NSString*)peerID
 {
-    return [peerID compare:gkSession.peerID] == NSOrderedAscending;
+    BOOL ascending = ([peerID compare:gkSession.peerID] == NSOrderedAscending);
+    
+    NSLog(@"Comparing my session's peer ID (%@) to other peer (%@): %i", gkSession.peerID, peerID, ascending);
+    
+    return ascending;
 }
 
-// Called to check if the session is ready to start a voice chat.
 -(BOOL) isReadyToStart
 {
     return sessionState == ConnectionStateConnected;
 }
 
-// When the voice chat starts, tell the game it can begin.
 -(void) sessionDidStart
 {
-    [gameDelegate session:self didConnectAsInitiator:![self comparePeerID:currentConfPeerID]];
+//    BOOL isInitiator = [self comparePeerID:currentConfPeerID];
+    NSLog(@"Session started %@.", (initiator ? @"as initiator" : @"as invitee"));
+    [handshakeDelegate session:self didConnectAsInitiator:initiator];
 }
 
-// Called by RocketController and VoiceManager to send data to the peer
+//
+// Called by PeerLobbyController to send data to the peer.
+//
 -(void) sendPacket:(NSData*)data ofType:(PacketType)type
 {
-    NSMutableData * newPacket = [NSMutableData dataWithCapacity:([data length]+sizeof(uint32_t))];
+    NSMutableData *newPacket = [NSMutableData dataWithCapacity:([data length] + sizeof(uint32_t))];
+    
     // Both game and voice data is prefixed with the PacketType so the peer knows where to send it.
+    
     uint32_t swappedType = CFSwapInt32HostToBig((uint32_t)type);
     [newPacket appendBytes:&swappedType length:sizeof(uint32_t)];
     [newPacket appendData:data];
+    
     NSError *error;
-  	if (![gkSession sendData:newPacket toPeers:[NSArray arrayWithObject:currentConfPeerID] withDataMode:GKSendDataReliable error:&error]) {
+
+    NSLog(@"Sending packet of type %i to %@", type, currentConfPeerID);
+    
+  	if (![gkSession sendData:newPacket 
+                     toPeers:[NSArray arrayWithObject:currentConfPeerID] 
+                withDataMode:GKSendDataReliable error:&error]) 
+    {
         NSLog(@"%@",[error localizedDescription]);
     }
 }
@@ -133,7 +175,7 @@
 // Clear the connection states in the event of leaving a call or error.
 -(void) disconnectCurrentCall
 {	
-    [gameDelegate willDisconnect:self];
+    [handshakeDelegate willDisconnect:self];
 
     if (sessionState != ConnectionStateDisconnected) {
 
@@ -159,9 +201,13 @@
 {
     [self disconnectCurrentCall];
 	gkSession.delegate = nil;
+    
 	[gkSession setDataReceiveHandler:nil withContext:nil];
 	[gkSession release];
-    [peerList removeAllObjects];
+
+    // TODO: Fix this crash.
+//    if (peerList)
+//        [peerList removeAllObjects];
 }
 
 // Called when notified the application is exiting or becoming inactive.
@@ -182,11 +228,18 @@
 // Received an invitation.  If we aren't already connected to someone, open the invitation dialog.
 - (void)session:(GKSession *)session didReceiveConnectionRequestFromPeer:(NSString *)peerID
 {
-    if (sessionState == ConnectionStateDisconnected) {
+    if (sessionState == ConnectionStateDisconnected) 
+    {
         currentConfPeerID = [peerID retain];
+        
         sessionState = ConnectionStateConnecting;
-        [lobbyDelegate didReceiveInvitation:self fromPeer:[gkSession displayNameForPeer:peerID]];
-    } else {
+
+        [lobbyDelegate didReceiveInvitation:self 
+                                   fromPeer:[gkSession displayNameForPeer:peerID]];
+        
+    } 
+    else 
+    {
         [gkSession denyConnectionFromPeer:peerID];
     }
 }
@@ -212,46 +265,95 @@
     [self disconnectCurrentCall];
 }
 
+- (void)prunePeerList
+{
+    NSMutableDictionary *prunedPeers = [NSMutableDictionary dictionary];
+    
+    for (NSString *peerID in peerList)
+    {
+        [prunedPeers setObject:peerID forKey:[self displayNameForPeer:peerID]];
+    }
+    
+    NSLog(@"Old peerList: %@", peerList);
+    
+    [peerList removeAllObjects];
+    [peerList addObjectsFromArray:[prunedPeers allValues]];
+
+    NSLog(@"Pruned peerList: %@\n\n", peerList);
+    
+}
+
 // React to some activity from other peers on the network.
 - (void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state
 {
-	switch (state) { 
+    NSLog(@"'%@' peer's state is now %i", peerID, state);
+    
+	switch (state) 
+    { 
 		case GKPeerStateAvailable:
+            
             // A peer became available by starting app, exiting settings, or ending a call.
-			if (![peerList containsObject:peerID]) {
+			
+            if (![peerList containsObject:peerID]) 
+            {
+                NSLog(@"Adding peer '%@'", peerID);
 				[peerList addObject:peerID]; 
 			}
+            
+            [self prunePeerList];
+            
  			[lobbyDelegate peerListDidChange:self]; 
+            
 			break;
+            
 		case GKPeerStateUnavailable:
+            
             // Peer unavailable due to joining a call, leaving app, or entering settings.
             [peerList removeObject:peerID]; 
+            
+            if ([currentConfPeerID isEqualToString:peerID])
+            {
+                [currentConfPeerID release];
+            }
+
             [lobbyDelegate peerListDidChange:self]; 
+            
 			break;
+            
 		case GKPeerStateConnected:
+
             // Connection was accepted.
             currentConfPeerID = [peerID retain];
             gkSession.available = NO;
 
             sessionState = ConnectionStateConnected;
 
-            // Compare the IDs to decide which device will invite the other to a voice chat.
-            if([self comparePeerID:peerID]) {
-            }
+            NSLog(@"Connected to peer %@", peerID);
+            [self sessionDidStart];
             
 			break;				
+            
 		case GKPeerStateDisconnected:
             // The call ended either manually or due to failure somewhere.
+            
             [self disconnectCurrentCall];
+            
             [peerList removeObject:peerID]; 
+            
             [lobbyDelegate peerListDidChange:self];
 			break;
+            
         case GKPeerStateConnecting:
             // Peer is attempting to connect to the session.
+            NSLog(@"\n\nPeer connecting...\n\n");
             break;
+            
 		default:
 			break;
 	}
+
+    NSLog(@"peerList: %@", [peerList componentsJoinedByString:@", "]);
+    
 }
 
 // Called when voice or game data is received over the network from the peer
@@ -268,7 +370,7 @@
         // Check the header to see if this is a voice or a game packet
         if (header == PacketTypeVoice) {
         } else {
-            [gameDelegate session:self didReceivePacket:payload ofType:header];
+            [handshakeDelegate session:self didReceivePacket:payload ofType:header];
         }
     }
 }
@@ -278,6 +380,7 @@
 	return [gkSession displayNameForPeer:peerID];
 }
 
+#pragma mark -
 
 @end
 
