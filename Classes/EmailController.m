@@ -29,11 +29,8 @@
     [self setSubject:@"Let's share locations"];
 
     NSString *body = [APP_DELEGATE html:@"invitation_email"];
-    
-    NSURL *apiServerURL = [NSURL URLWithString:[APP_DELEGATE apiServerURL]];
-    NSString *apiHost = apiServerURL.host;
-    
-    body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_LQUSER_SERVER}}" withString:apiHost];
+        
+    body = [body stringByReplacingOccurrencesOfString:@"{{CURRENT_LQUSER_SERVER}}" withString:[APP_DELEGATE apiServerHost]];
     body = [body stringByReplacingOccurrencesOfString:@"{{INVITATION_CODE}}" withString:invitationCode];
 
     [self setMessageBody:body isHTML:YES];

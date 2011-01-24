@@ -8,8 +8,10 @@
 #import "EmailController.h"
 #import "CJSONDeserializer.h"
 #import "SoSoAppDelegate.h"
+#import "Friend.h"
 
 typedef struct {
+    NSString *invitationHost;
     NSString *invitationToken;
 } Packet;
 
@@ -37,6 +39,10 @@ typedef struct {
     invitationStatusLabel.text = @"";
     receivedInvitationToken = nil;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(invitationWasFetched:) 
+                                                 name:NOTIF_INVITATION_FETCHED 
+                                               object:APP_DELEGATE];
 }
 
 - (void)dealloc 
@@ -93,11 +99,72 @@ typedef struct {
 
 }
 
-- (void) sendInvitationTokenToPeer
+- (NSData *) dataFromPlist:(id)plist
 {
-    invitationStatusLabel.text = @"???";
+    if (!plist) return [NSData data];
     
-//    NSLog(@"Sending invitation to peer '%@'", invitedPeer);
+    NSLog(@"plist: %@", plist);
+    
+    NSError *error;
+    NSData *data = [NSPropertyListSerialization dataWithPropertyList:plist
+                                  format:NSPropertyListBinaryFormat_v1_0 
+                                 options:NSPropertyListImmutable 
+                                   error:&error];
+    
+    if (error)
+    {     
+        // TODO: Figure out what the error is.
+        //NSLog(@"ERROR serializing plist into data.");
+    }
+    
+    return data;
+}
+
+- (NSDictionary *)plistFromData:(NSData *)data
+{
+    NSString *errorStr = nil;
+    NSPropertyListFormat format;
+    NSDictionary *plist = [NSPropertyListSerialization propertyListFromData:data
+                                  mutabilityOption:NSPropertyListImmutable
+                                            format:&format
+                                  errorDescription:&errorStr];
+    
+    if (errorStr)
+    {
+        NSLog(@"ERROR parsing plist: %@", errorStr);
+    }
+    
+    [errorStr release];
+    
+    return plist;
+}
+
+- (void) sendInvitationTokenToPeer:(PacketType)packetType
+{
+    if ([invitationToken length] == 0)
+    {
+        NSLog(@"\n\nERROR: Empty invitation token.\n\n");
+        return;
+    }
+    
+    invitationStatusLabel.text = @"Sending invitation";
+    
+    NSLog(@"Preparing packet with invitationToken: %@", invitationToken);
+        
+    NSDictionary *packet = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [APP_DELEGATE apiServerHost], @"host",
+                            invitationToken, @"token",
+                            nil];
+
+    // Clear the current invitationToken
+    [invitationToken release];
+    invitationToken = nil;
+    
+    NSData *data = [self dataFromPlist:[packet copy]];
+    
+    [manager sendPacket:data ofType:packetType];
+    
+    [packet release];    
 }
 
 - (LQHTTPRequestCallback)invitationCreatedCallback {
@@ -163,6 +230,8 @@ typedef struct {
 
 - (void) setBlockerHidden:(BOOL)hide animated:(BOOL)animated
 {
+    NSLog(@"setBlockerHidden: %i", hide);
+    
     if (hide == blockerContainer.hidden)
         return;
     
@@ -227,19 +296,18 @@ typedef struct {
     [self setBlockerHidden:NO animated:YES];
     
     invitationStatusLabel.text = @"Creating invitation";
-
-#if 1
-
-    NSLog(@"\n\n NOT USING GEOLOQI, FOR TESTING\n\n");
-    invitationToken = @"BOGUS";    
-    [self beginWirelessInvitation];
-
-#else
     
-    [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];
-    
-#endif
-    
+    if ([invitationToken length] == 0)
+    {
+        // Create a new token.
+        
+        [[Geoloqi sharedInstance] createInvitation:[self invitationCreatedCallback]];
+    }
+    else
+    {
+        NSLog(@"Trying to reuse invitation token %@", invitationToken);
+        [self beginWirelessInvitation];
+    }
 }
 
 
@@ -353,7 +421,7 @@ typedef struct {
         {
             // Scanning wireless space.
 
-            cell.textLabel.text = @"Scanning for friends...";
+            cell.textLabel.text = @"Searching for friends...";
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         else
@@ -527,7 +595,7 @@ typedef struct {
         
         NSLog(@"Session started. Sending start packet.");
         
-        [self sendPacket:PacketTypeStart];
+        [self sendInvitationTokenToPeer:PacketTypeStart];
         
     }
     else
@@ -554,28 +622,67 @@ typedef struct {
 //    manager = nil;
 }
 
+- (void) finishFriending
+{
+    NSLog(@"Finishing friending process");
+    [Friend getOpenAccessTokens];
+}
+
+- (void) tellPeerToFinishFriending
+{
+    NSLog(@"Telling peer to finish friending process");    
+    [self sendInvitationTokenToPeer:PacketTypeFinishInvitation];    
+}
+
+- (void) sendReciprocalInvitation:(NSDictionary *)invitation
+{
+    invitationToken = [[invitation objectForKey:@"invitation_token"] retain];
+
+    NSLog(@"Reciprocal invitation token: %@", invitationToken);
+    
+    [self sendInvitationTokenToPeer:PacketTypeReciprocalInvitation];    
+}
+
+- (void) receiveInvitationPacket:(NSDictionary *)packet
+{
+    // The inviter sent a token.
+
+    NSLog(@"Received invitation packet: %@", packet);
+    
+    invitationStatusLabel.text = @"Fetching invitation from Geoloqi";
+    
+    APP_DELEGATE.invitationViewingDisabled = YES;
+    
+    NSString *host = [packet objectForKey:@"host"];
+    NSString *token = [packet objectForKey:@"token"];
+    
+    NSLog(@"Fetching invitation token %@ from host %@", token, host);
+    
+    [[Geoloqi sharedInstance] getInvitationAtHost:host
+                                            token:token
+                                         callback:[APP_DELEGATE getInvitationCallback]];
+
+}
+
 // The GKSession got a packet and sent it to the game, so parse it and update state.
 - (void) session:(PeerSessionManager *)session didReceivePacket:(NSData*)data ofType:(PacketType)packetType
 {
-    Packet incoming;
-
-    if ([data length] == sizeof(Packet)) 
+    if ([data length] > 0) 
     {
-        [data getBytes:&incoming length:sizeof(Packet)];
+        NSDictionary *packet = [self plistFromData:data];
         
         switch (packetType) 
         {
             case PacketTypeStart:
-                // The inviter sent a token.
-                
-                NSLog(@"Received invitation token: %@", incoming.invitationToken);
-                receivedInvitationToken = [incoming.invitationToken retain];
-                
+            case PacketTypeReciprocalInvitation:
+
+                [self receiveInvitationPacket:packet];
                 break;
 
-            case PacketTypeEndTalking:
-                // The other player is ready to play again.
+            case PacketTypeFinishInvitation:
+                [self finishFriending];
                 break;
+                
             default:
                 break;
         }
@@ -583,27 +690,6 @@ typedef struct {
 }
 
 #pragma mark -
-#pragma mark Game Network Logic
-
-// Send the same information each time, just with a different header
--(void) sendPacket:(PacketType)packetType
-{
-    Packet outgoing;
-
-    if (packetType == PacketTypeStart)
-    {
-        NSLog(@"Preparing packet with invitationToken: %@", invitationToken);
-        
-        outgoing.invitationToken = invitationToken;
-        
-    }
-    
-    NSData *packet = [[NSData alloc] initWithBytes:&outgoing length:sizeof(Packet)];
-    
-    [manager sendPacket:packet ofType:packetType];
-    
-    [packet release];
-}
 
 - (void) presentServerErrorAlert
 {
@@ -612,5 +698,102 @@ typedef struct {
     
     
 }
+
+- (LQHTTPRequestCallback)claimInvitationBlock 
+{
+	if (claimInvitationBlock) return claimInvitationBlock;
+    
+	return claimInvitationBlock = [^(NSError *error, NSString *responseBody) 
+       {
+           NSLog(@"Invitation claimed.");
+           
+           NSError *err = nil;
+           NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                          NSUTF8StringEncoding]
+                                                                                   error:&err];
+           if (!res || [res objectForKey:@"error"] != nil) 
+           {
+               NSLog(@"Error deserializing response (for invitation/claim) \"%@\": %@", responseBody, err);
+               [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+               return;
+           }
+           
+           NSDictionary *invitation = [res retain];
+           
+           [APP_DELEGATE createFriend:invitation withAccessToken:nil];
+           
+           [self sendReciprocalInvitation:invitation];           
+           
+       } copy];
+}
+
+- (LQHTTPRequestCallback)confirmInvitationBlock {
+	if (confirmInvitationBlock) return confirmInvitationBlock;
+    
+	return confirmInvitationBlock = [^(NSError *error, NSString *responseBody) 
+         {
+             NSLog(@"Invitation confirmed.");
+             
+             NSError *err = nil;
+             NSDictionary *res = [[CJSONDeserializer deserializer] deserializeAsDictionary:[responseBody dataUsingEncoding:
+                                                                                            NSUTF8StringEncoding]
+                                                                                     error:&err];
+             if (!res || [res objectForKey:@"error"] != nil) 
+             {
+                 NSLog(@"Error deserializing response (for invitation/confirm) \"%@\": %@", responseBody, err);
+                 [[Geoloqi sharedInstance] errorProcessingAPIRequest];
+                 return;
+             }
+             
+             NSLog(@"Invitation confirmed: %@", res);
+             
+             NSDictionary *invitation = [res retain];
+             [APP_DELEGATE createFriend:invitation withAccessToken:[res objectForKey:@"access_token"]];
+
+             // Tell peer to update open access tokens.
+
+             [self finishFriending];
+             
+             // Leave lobby.
+             
+             [self setBlockerHidden:YES animated:NO];
+             [self.navigationController popViewControllerAnimated:YES];
+             
+         } copy];
+}
+
+- (void) invitationWasFetched:(NSNotification *)notification
+{
+    APP_DELEGATE.invitationViewingDisabled = NO;
+
+    invitationStatusLabel.text = @"Invitation received";
+
+    NSDictionary *invitation = [notification userInfo];
+    NSLog(@"Fetched invitation: %@", invitation);
+    
+    NSString *token = [invitation objectForKey:@"invitation_token"];
+    
+    BOOL alreadyClaimed = [[invitation objectForKey:@"invitation_confirmed"] isEqualToString:@"1"];
+    
+    if (alreadyClaimed)
+    {
+        invitationStatusLabel.text = @"Confirming invitation";
+        
+        [[Geoloqi sharedInstance] confirmInvitation:token 
+                                               host:[APP_DELEGATE apiServerHost]
+                                           callback:[self confirmInvitationBlock]];
+    }
+    else 
+    {
+        invitationStatusLabel.text = @"Accepting invitation";
+        
+        [[Geoloqi sharedInstance] claimInvitation:token 
+                                             host:[APP_DELEGATE apiServerHost]
+                                         callback:[self claimInvitationBlock]];
+    }
+    
+    
+}
+
 
 @end

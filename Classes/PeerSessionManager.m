@@ -164,6 +164,13 @@
 
     NSLog(@"Sending packet of type %i to %@", type, currentConfPeerID);
     
+    if ([currentConfPeerID length] == 0)
+    {
+        NSLog(@"ERROR: Lost peer");
+        [handshakeDelegate willDisconnect:self];
+        return;
+    }
+    
   	if (![gkSession sendData:newPacket 
                      toPeers:[NSArray arrayWithObject:currentConfPeerID] 
                 withDataMode:GKSendDataReliable error:&error]) 
@@ -268,18 +275,27 @@
 - (void)prunePeerList
 {
     NSMutableDictionary *prunedPeers = [NSMutableDictionary dictionary];
-    
+
+    NSString *udid = [[UIDevice currentDevice] uniqueIdentifier];
+
     for (NSString *peerID in peerList)
     {
-        [prunedPeers setObject:peerID forKey:[self displayNameForPeer:peerID]];
+        NSString *displayName = [self displayNameForPeer:peerID];
+        
+//        NSLog(@"Checking if %@ has UDID %@", displayName, udid);
+
+        if ([displayName length] == 0 || [displayName hasSuffix:udid])
+            continue;
+        
+        [prunedPeers setObject:peerID forKey:displayName];
     }
     
-    NSLog(@"Old peerList: %@", peerList);
+//    NSLog(@"Old peerList: %@", peerList);
     
     [peerList removeAllObjects];
     [peerList addObjectsFromArray:[prunedPeers allValues]];
 
-    NSLog(@"Pruned peerList: %@\n\n", peerList);
+//    NSLog(@"Pruned peerList: %@\n\n", peerList);
     
 }
 
@@ -352,8 +368,7 @@
 			break;
 	}
 
-    NSLog(@"peerList: %@", [peerList componentsJoinedByString:@", "]);
-    
+//    NSLog(@"peerList: %@", [peerList componentsJoinedByString:@", "]);    
 }
 
 // Called when voice or game data is received over the network from the peer
@@ -368,10 +383,9 @@
         NSData* payload = [data subdataWithRange:payloadRange];
         
         // Check the header to see if this is a voice or a game packet
-        if (header == PacketTypeVoice) {
-        } else {
-            [handshakeDelegate session:self didReceivePacket:payload ofType:header];
-        }
+    
+        [handshakeDelegate session:self didReceivePacket:payload ofType:header];
+
     }
 }
 

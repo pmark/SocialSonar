@@ -31,6 +31,7 @@
     NSString *permanentAccessToken;
     NSString *nickname;
     NicknameController *nicknameController;
+    BOOL invitationViewingDisabled;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -44,12 +45,17 @@
 @property (nonatomic, retain) NSString *invitationHost;
 @property (nonatomic, retain) NSString *permanentAccessToken;
 @property (nonatomic, retain) NSString *nickname;
+@property (nonatomic, assign) BOOL invitationViewingDisabled;
 
 - (NSString *) html:(NSString *)urn;
 - (NSString *) apiServerURL;
+- (NSString *) apiServerHost;
 
 + (void)alertWithTitle:(NSString *)title message:(NSString *)msg;
 - (LQHTTPRequestCallback)createPermanentAccessTokenCallback;
+- (LQHTTPRequestCallback)getInvitationCallback;
+- (NSString *) fullyQualifiedHost:(NSString *)h;
+- (void) createFriend:(NSDictionary *)data withAccessToken:(NSString *)accessToken;
 
 @end
 

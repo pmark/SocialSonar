@@ -10,6 +10,7 @@
 #import "InvitationController.h"
 #import "CJSONDeserializer.h"
 #import "LQConstants.h"
+#import "Friend.h"
 
 @implementation SoSoAppDelegate
 
@@ -19,6 +20,7 @@
 @synthesize invitationHost;
 @synthesize permanentAccessToken;
 @synthesize nickname;
+@synthesize invitationViewingDisabled;
 
 - (void)dealloc {
     [tabBarController release];
@@ -377,7 +379,16 @@
         
         currentInvitation = [res retain];
         
-        [self viewInvitation];
+        if (invitationViewingDisabled)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NOTIF_INVITATION_FETCHED 
+                                                                object:self 
+                                                              userInfo:currentInvitation];
+        }
+        else
+        {
+            [self viewInvitation];
+        }
         
     } copy];
 }
@@ -413,6 +424,12 @@
     return [[NSUserDefaults standardUserDefaults] stringForKey:@"serverURL"];
 }
 
+- (NSString *) apiServerHost
+{
+    NSURL *apiServerURL = [NSURL URLWithString:[self apiServerURL]];
+    return apiServerURL.host;
+}
+
 + (void)alertWithTitle:(NSString *)title message:(NSString *)msg
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title 
@@ -445,10 +462,42 @@
 }
 
 #pragma mark -
+
 - (void)nicknameController:(NicknameController*)controller didReturnName:(NSString*)name
 {
     self.nickname = name;
     [self connectToGeoloqi];
+}
+
+#pragma mark -
+
+- (NSString *) fullyQualifiedHost:(NSString *)h
+{
+    return [NSString stringWithFormat:@"http://%@/1/", h];
+}
+
+
+- (void) createFriend:(NSDictionary *)data withAccessToken:(NSString *)accessToken
+{
+    NSString *host = [self apiServerHost];
+    NSLog(@"Creating friend with access token %@ on host %@ \n\n %@", accessToken, host, data);
+    
+	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
+                                                             inManagedObjectContext:MOCONTEXT];
+	
+	[friend setName:[data objectForKey:@"name"]];
+    [friend setInvitationToken:[data objectForKey:@"invitation_token"]];
+    [friend setServerURL:[self fullyQualifiedHost:host]];
+    [friend setAccessToken:accessToken];
+	[friend setCreatedAt:[NSDate date]];
+	
+	// Commit the change.
+	NSError *error;
+    
+	if (![MOCONTEXT save:&error]) 
+    {
+		NSLog(@"ERROR creating friend: %@", [error localizedDescription]);        
+	}    
 }
 
 @end

@@ -13,12 +13,10 @@ typedef enum {
 } ConnectionState;
 
 typedef enum {
-    PacketTypeVoice = 0,
+    PacketTypeOther = 0,
     PacketTypeStart = 1,
-    PacketTypeBounce = 2,
-    PacketTypeScore = 3,
-    PacketTypeTalking = 4,
-    PacketTypeEndTalking = 5
+    PacketTypeReciprocalInvitation = 2,
+    PacketTypeFinishInvitation = 3
 } PacketType;
 
 

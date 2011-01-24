@@ -67,33 +67,6 @@
     }
 }
 
-- (NSString *) fullyQualifiedHost:(NSString *)h
-{
-    return [NSString stringWithFormat:@"http://%@/1/", h];
-}
-
-- (void) createFriend:(NSDictionary *)data withAccessToken:(NSString *)accessToken
-{
-    NSLog(@"Creating friend with access token %@ on host %@ \n\n %@", accessToken, self.host, data);
-    
-	Friend *friend = (Friend *)[NSEntityDescription insertNewObjectForEntityForName:@"Friend" 
-                                                             inManagedObjectContext:MOCONTEXT];
-	
-	[friend setName:[data objectForKey:@"name"]];
-    [friend setInvitationToken:[data objectForKey:@"invitation_token"]];
-    [friend setServerURL:[self fullyQualifiedHost:self.host]];
-    [friend setAccessToken:accessToken];
-	[friend setCreatedAt:[NSDate date]];
-	
-	// Commit the change.
-	NSError *error;
-    
-	if (![MOCONTEXT save:&error]) 
-    {
-		NSLog(@"ERROR creating friend: %@", [error localizedDescription]);        
-	}    
-}
-
 - (LQHTTPRequestCallback)claimInvitationBlock 
 {
 	if (claimInvitationBlock) return claimInvitationBlock;
@@ -117,7 +90,7 @@
                
                NSLog(@"Reciprocal invitation: %@", reciprocalInvitation);
                
-               [self createFriend:invitation withAccessToken:nil];
+               [APP_DELEGATE createFriend:invitation withAccessToken:nil];
                 
                [self composeReciprocalInvitationEmail];
                
@@ -143,7 +116,7 @@
                      return;
                  }
                  
-                 [self createFriend:invitation withAccessToken:[res objectForKey:@"access_token"]];
+                 [APP_DELEGATE createFriend:invitation withAccessToken:[res objectForKey:@"access_token"]];
                                   
                  [self dismissModalViewControllerAnimated:YES];        
 
